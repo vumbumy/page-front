@@ -1,4 +1,4 @@
-# page_vue
+# Page Vue.js
 
 ## Project setup
 ```

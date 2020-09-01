@@ -2,28 +2,34 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content class="text-left">
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-cog</v-icon>
-          </v-list-item-action>
-          <v-list-item-content class="text-left">
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <router-link class="link-item" to="/">
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon>mdi-view-dashboard</v-icon>
+            </v-list-item-action>
+            <v-list-item-content class="text-left">
+                <v-list-item-title>
+                  Dashboard
+                </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link class="link-item" to="/settings">
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon>mdi-cog</v-icon>
+            </v-list-item-action>
+            <v-list-item-content class="text-left">
+              <v-list-item-title>Settings</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left>
+    <v-app-bar app clipped-left dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -46,19 +52,29 @@
 
 export default {
   name: 'App',
+  created () {
+    this.$vuetify.theme.dark = true
+  },
+  data: () => ({
+    drawer: null,
+  }),
   components: {
 
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  /*#app {*/
+  /*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
+  /*  -webkit-font-smoothing: antialiased;*/
+  /*  -moz-osx-font-smoothing: grayscale;*/
+  /*  text-align: center;*/
+  /*  color: #2c3e50;*/
+  /*  margin-top: 60px;*/
+  /*}*/
+
+  .link-item {
+    text-decoration: none;
+  }
 </style>

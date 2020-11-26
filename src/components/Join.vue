@@ -1,5 +1,3 @@
-<script src="../router/index.js"></script>
-<script src="../store/index.js"></script>
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">

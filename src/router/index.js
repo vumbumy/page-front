@@ -9,8 +9,6 @@ import Join from "@/components/Join";
 Vue.use(Router);
 
 const requireAuth = () => (to, from, next) => {
-    console.log("requireAuth", store.state.accessToken)
-
     if (store.state.accessToken !== undefined) {
         return next();
     }

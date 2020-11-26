@@ -1,4 +1,3 @@
-<script src="api/main.js"></script>
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app clipped v-if="isAuthenticated">
@@ -21,10 +20,18 @@
               <v-icon>mdi-cog</v-icon>
             </v-list-item-action>
             <v-list-item-content class="text-left">
-              <v-list-item-title @click="onClickLogout">Settings</v-list-item-title>
+              <v-list-item-title>Settings</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>
+        <v-list-item link @click="onClickLogout">
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content class="text-left">
+            <v-list-item-title>LOGOUT</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -66,7 +73,6 @@ export default {
       this.$store
           .dispatch("LOGOUT")
           .then(() => this.$router.push("/login"))
-          .catch(({ message }) => (this.msg = message))
     }
   }
 }

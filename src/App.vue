@@ -1,6 +1,7 @@
+<script src="api/main.js"></script>
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer v-model="drawer" app clipped v-if="isAuthenticated">
       <v-list dense>
         <router-link class="link-item" to="/">
           <v-list-item link>
@@ -20,35 +21,30 @@
               <v-icon>mdi-cog</v-icon>
             </v-list-item-action>
             <v-list-item-content class="text-left">
-              <v-list-item-title>Settings</v-list-item-title>
+              <v-list-item-title @click="onClickLogout">Settings</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left dense>
+    <v-app-bar app clipped-left dense v-if="isAuthenticated">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title></v-toolbar-title>
     </v-app-bar>
 
     <v-main>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col class="shrink">
-            <router-view :key="$route.path"/>
-          </v-col>
-        </v-row>
-      </v-container>
+      <router-view :key="$route.path"/>
     </v-main>
 
     <v-footer app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} VUMBUMY</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import store from "@/store"
 
 export default {
   name: 'App',
@@ -57,9 +53,21 @@ export default {
   },
   data: () => ({
     drawer: null,
+    msg: null
   }),
-  components: {
-
+  computed: {
+    isAuthenticated(){
+      return store.getters.isAuthenticated
+    }
+  },
+  methods: {
+    onClickLogout: function (){
+      // LOGIN 액션 실행
+      this.$store
+          .dispatch("LOGOUT")
+          .then(() => this.$router.push("/login"))
+          .catch(({ message }) => (this.msg = message))
+    }
   }
 }
 </script>

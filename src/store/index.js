@@ -11,7 +11,7 @@ export const resourceHost = "http://1.241.17.48:8080/api"
 const enhanceAccessToeken = () => {
   const { accessToken } = localStorage
   if (!accessToken) return
-  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
   return accessToken
 }
@@ -35,7 +35,7 @@ export default new Vuex.Store({
     },
     LOGOUT(state) {
       state.accessToken = undefined
-      axios.defaults.headers.common['Authorization'] = undefined
+      axios.defaults.headers.common['X-AUTH-TOKEN'] = undefined
 
       delete localStorage.accessToken
     },

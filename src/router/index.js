@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Login from "@/components/login";
-import Home from "@/components/home";
+import Login from "@/components/Login";
+import Home from "@/components/Home";
 import store from "@/store";
-import Join from "@/components/join";
+import Join from "@/components/Join";
 
 Vue.use(Router);
 

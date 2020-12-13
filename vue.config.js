@@ -3,7 +3,7 @@ module.exports = {
         config
             .plugin('html')
             .tap(args => {
-                args[0].title = 'PAGE'
+                args[0].title = 'CMS'
                 return args
             })
     },

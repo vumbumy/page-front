@@ -21,7 +21,6 @@ export function join (email, password) {
     axios.post(`${resourceHost}/join`,data,
         {headers: {'Content-Type': 'application/json'}}
         )
-        .then((result) => {
-            console.log(result)
-        }).catch((err) => console.log(err))
+      .then(result => console.log(result))
+      .catch((err) => console.log(err))
 }

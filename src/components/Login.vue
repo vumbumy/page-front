@@ -21,6 +21,7 @@
             placeholder="PASSWORD"
             required
             v-model="password"
+            @keydown.enter="onClickLogin(email, password)"
           />
           <v-btn block :loading="loading" @click="onClickLogin(email, password)">
             LOGIN

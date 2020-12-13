@@ -1,4 +1,4 @@
-<home>
+<template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
       <v-col class="shrink">
@@ -19,7 +19,7 @@
       </v-col>
     </v-row>
   </v-container>
-</home>
+</template>
 
 <script>
   export default {

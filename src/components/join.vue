@@ -2,28 +2,27 @@
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
       <v-col class="shrink">
-<!--      <v-col>-->
         <v-form
-            style="width: 300px"
-            ref="form"
-            lazy-validation
+          style="width: 300px"
+          ref="form"
+          lazy-validation
         >
           <v-text-field
-              type="email"
-              placeholder="EMAIL"
-              required
-              v-model="email"
+            type="email"
+            placeholder="EMAIL"
+            required
+            v-model="email"
           />
           <v-text-field
-              type="password"
-              placeholder="PASSWORD"
-              required
-              v-model="password"
+            type="password"
+            placeholder="PASSWORD"
+            required
+            v-model="password"
           />
           <v-text-field
-              type="password"
-              placeholder="PASSWORD CONFIRM"
-              required
+            type="password"
+            placeholder="PASSWORD CONFIRM"
+            required
           />
           <v-btn block @click="onClickJoin">
             SEND CODE
@@ -35,26 +34,13 @@
       </v-col>
     </v-row>
   </v-container>
-<!--  <v-tooltip right>-->
-<!--    <template v-slot:activator="{ on }">-->
-<!--      <v-btn-->
-<!--              :href="source"-->
-<!--              icon-->
-<!--              large-->
-<!--              target="_blank"-->
-<!--              v-on="on"-->
-<!--      >-->
-<!--        <v-icon large>mdi-code-tags</v-icon>-->
-<!--      </v-btn>-->
-<!--    </template>-->
-<!--    <span>Source</span>-->
-<!--  </v-tooltip>-->
 </template>
 
 <script>
   import {join} from "@/api/main";
 
   export default {
+    name: "Join",
     data() {
       return {
         email: "",

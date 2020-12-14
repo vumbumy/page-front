@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {resourceHost} from "@/store";
+import {resourceHost} from "./config";
 
 export function searchTerm () {
     // using JSONPlaceholder

@@ -3,15 +3,14 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import axios from "axios"
+import {resourceHost} from "../api/config";
 
 Vue.use(Vuex)
-
-export const resourceHost = "http://1.241.17.48:8080/api"
 
 const enhanceAccessToeken = () => {
   const { accessToken } = localStorage
   if (!accessToken) return
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+  axios.defaults.headers.common["X-AUTH-TOKEN"] = accessToken
 
   return accessToken
 }

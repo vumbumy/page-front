@@ -5,6 +5,7 @@ import Login from "@/components/Login";
 import Home from "@/components/Home";
 import store from "@/store";
 import Join from "@/components/Join";
+import Board from "../components/Board";
 
 Vue.use(Router);
 
@@ -26,6 +27,11 @@ export default new Router({
     {
       path: '/',
       component: Home,
+      beforeEnter: requireAuth(),
+    },
+    {
+      path: '/board',
+      component: Board,
       beforeEnter: requireAuth(),
     },
     {

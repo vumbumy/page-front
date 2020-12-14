@@ -1,0 +1,1 @@
+export const resourceHost = "http://localhost:8080/api"

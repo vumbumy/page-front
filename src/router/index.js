@@ -6,6 +6,7 @@ import Home from "@/components/Home";
 import store from "@/store";
 import Join from "@/components/Join";
 import Board from "../components/Board";
+import Users from "@/components/Users";
 
 Vue.use(Router);
 
@@ -37,6 +38,10 @@ export default new Router({
     {
       path: '/join',
       component: Join
+    },
+    {
+      path: '/users',
+      component: Users
     },
   ]
 })

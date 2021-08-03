@@ -56,6 +56,16 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
+          <router-link class="link-item" to="/users">
+              <v-list-item link>
+                  <v-list-item-action>
+                      <v-icon>mdi-view-array</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content class="text-left">
+                      <v-list-item-title>Users</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+          </router-link>
       </v-list>
     </v-navigation-drawer>
   </div>

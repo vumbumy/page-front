@@ -6,8 +6,11 @@ export default {
   admin: {
     users: secured + admin + "/users"
   },
-  sign: {
-    up: '/sign/up',
-    in: '/sign/in'
+  auth: {
+    sign: {
+      up: '/sign/up',
+      in: '/sign/in'
+    },
+    me: secured + "/me"
   }
 }

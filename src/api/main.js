@@ -9,7 +9,7 @@ export function join (email, password) {
   }
 
   // using JSONPlaceholder
-  Api.post(path.sign.up, data,
+  Api.post(path.auth.sign.up, data,
     {headers: {'Content-Type': 'application/json'}}
   )
     .then(result => console.log(result))

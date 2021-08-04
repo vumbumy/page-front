@@ -50,6 +50,9 @@
 </template>
 
 <script>
+  import store from "@/store";
+  import router from "@/router";
+
   export default {
     name: "Login",
     data() {
@@ -68,9 +71,9 @@
 
         vm.loading = true
         // LOGIN 액션 실행
-        this.$store
+        store
           .dispatch("LOGIN", { email, password })
-          .then(() => this.$router.push("/"))
+          .then(() => router.push("/"))
           .catch(({ message }) => (this.msg = message))
           .finally(() => vm.loading = false)
       }

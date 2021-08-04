@@ -11,10 +11,12 @@ import Users from "@/components/Users";
 Vue.use(Router);
 
 const requireAuth = () => (to, from, next) => {
-  if (store.state.accessToken !== undefined) {
-    return next();
-  }
-  next('/login');
+  store.dispatch("AUTH").then(() => {
+    if (store.getters.isAuthenticated) {
+      return next();
+    }
+    next('/login')
+  })
 };
 
 

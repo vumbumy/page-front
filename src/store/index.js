@@ -8,6 +8,7 @@ Vue.use(Vuex)
 import {Api} from "@/api/common";
 
 import path from "@/config/path";
+import {ROLE_ADMIN} from "@/config/constant";
 
 // const enhanceAccessToeken = () => {
 //   const { accessToken } = localStorage
@@ -25,8 +26,11 @@ export default new Vuex.Store({
     isAuthenticated: state => {
       return state.account !== null
     },
-    currentUser: state => {
-      return state.account
+    // currentUser: state => {
+    //   return state.account
+    // },
+    isAdmin: (state) => {
+      return state.account.roles.includes(ROLE_ADMIN)
     }
   },
   mutations: {
@@ -44,7 +48,6 @@ export default new Vuex.Store({
     setAccount(state, {data}) {
       state.account = data;
     },
-
   },
   actions: {
     LOGIN({ commit }, { email, password }) {

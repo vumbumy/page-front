@@ -10,3 +10,13 @@ export function getUserList () {
       })
   });
 }
+
+export function updateUser (user) {
+  return new Promise(function(resolve) {
+    Api.put(path.admin.users, user)
+      .then(res => {
+        resolve(res.data)
+      })
+      .catch(err => console.log(err.response))
+  });
+}

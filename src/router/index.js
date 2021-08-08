@@ -19,6 +19,15 @@ const requireAuth = () => (to, from, next) => {
   })
 };
 
+const requiredAdmin = () => (to, from, next) => {
+  store.dispatch("AUTH").then(() => {
+    if (store.getters.isAuthenticated && store.getters.isAdmin) {
+      return next();
+    }
+    next('/login')
+  })
+};
+
 
 export default new Router({
   mode: 'history',
@@ -44,7 +53,7 @@ export default new Router({
     {
       path: '/users',
       component: Users,
-      beforeEnter: requireAuth(),
+      beforeEnter: requiredAdmin(),
     },
   ]
 })

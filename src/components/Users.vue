@@ -6,13 +6,14 @@
       :items="userList"
       :headers="columns">
       <template v-slot:item.enabled="{ item }">
-        <v-switch
-          v-model="item.enabled"
+        <v-switch @change="toggleEnable(item)"
+                  v-model="item.enabled"
         ></v-switch>
       </template>
       <template v-slot:item.roles="{item}">
-        <v-icon v-if="roleContains(item.roles, 'ROLE_ADMIN')">mdi-account-star</v-icon>
-        <v-icon v-if="roleContains(item.roles, 'ROLE_PARTNER')">mdi-account-settings</v-icon>
+        <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>
+        <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>
+        <v-icon v-else-if="isEnabled(item)">mdi-account</v-icon>
 <!--        <v-icon v-if="!item.enabled">mdi-account-alert</v-icon>-->
       </template>
     </v-data-table>
@@ -20,7 +21,8 @@
 </template>
 
 <script>
-import {getUserList} from "@/api/user";
+import {getUserList, updateUser} from "@/api/user";
+import {ROLE_ADMIN, ROLE_PARTNER, ROLE_USER} from "@/config/constant";
 
 export default {
   data() {
@@ -38,8 +40,14 @@ export default {
     this.loadUserList()
   },
   methods: {
-    roleContains: function (roles, role) {
-      return roles.find(e => e.value === role)
+    isEnabled: function (user) {
+      return user.enabled
+    },
+    isAdmin: function (user) {
+      return user.roles.find(e => e.value === ROLE_ADMIN)
+    },
+    isPartner: function (user) {
+      return user.roles.find(e => e.value === ROLE_PARTNER)
     },
     loadUserList: function () {
       this.userList = null;
@@ -47,6 +55,17 @@ export default {
       getUserList().then(ret => {
         this.userList = ret
       })
+    },
+    toggleEnable: function (user) {
+      if (user.enabled) {
+        user.roles.push(ROLE_USER)
+      } else {
+        user.roles = []
+      }
+
+      updateUser(user)
+      .then(() => this.loadUserList())
+      .catch(() => this.loadUserList())
     }
   }
 }

@@ -28,6 +28,10 @@ export default new Router({
       component: Login
     },
     {
+      path: '/join',
+      component: Join
+    },
+    {
       path: '/',
       component: Home,
       beforeEnter: requireAuth(),
@@ -38,12 +42,9 @@ export default new Router({
       beforeEnter: requireAuth(),
     },
     {
-      path: '/join',
-      component: Join
-    },
-    {
       path: '/users',
-      component: Users
+      component: Users,
+      beforeEnter: requireAuth(),
     },
   ]
 })

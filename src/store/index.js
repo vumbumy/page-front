@@ -43,16 +43,26 @@ export default new Vuex.Store({
     },
     setAccount(state, {data}) {
       state.account = data;
-    }
+    },
+
   },
   actions: {
     LOGIN({ commit }, { email, password }) {
-      return Api.post(path.auth.sign.in,
+      return new Promise((resolve, reject) => Api.post(path.auth.sign.in,
         {
           userName: email,
           password: password
         })
-        .then(res => commit("setToken", res))
+        .then(res => {
+          commit("setToken", res)
+
+          resolve()
+        })
+        .catch(err => {
+          console.log(err.response)
+          reject(err.response)
+        })
+      );
     },
     LOGOUT({ commit }) {
       return new Promise((resolve) => {

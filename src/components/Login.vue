@@ -2,10 +2,9 @@
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
       <v-col class="shrink">
-        <!--      <v-col>-->
-        <!--        <v-alert>-->
-        <!--          {{msg}}-->
-        <!--        </v-alert>-->
+<!--        <v-alert>-->
+<!--          {{msg}}-->
+<!--        </v-alert>-->
         <v-form
           style="width: 300px"
           ref="form"
@@ -62,7 +61,7 @@
 
         loading: false,
 
-        msg: null
+        // msg: null
       }
     },
     methods: {
@@ -74,7 +73,7 @@
         store
           .dispatch("LOGIN", { email, password })
           .then(() => router.push("/"))
-          .catch(({ message }) => (this.msg = message))
+          .catch(({ data }) => alert(data))
           .finally(() => vm.loading = false)
       }
     }

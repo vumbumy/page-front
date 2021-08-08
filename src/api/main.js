@@ -8,10 +8,11 @@ export function join (email, password) {
     password: password
   }
 
-  // using JSONPlaceholder
-  Api.post(path.auth.sign.up, data,
-    {headers: {'Content-Type': 'application/json'}}
-  )
-    .then(result => console.log(result))
-    .catch((err) => console.log(err))
+  return new Promise((resolve, reject) => {
+    Api.post(path.auth.sign.up, data,
+      {headers: {'Content-Type': 'application/json'}}
+    )
+      .then(() => resolve())
+      .catch(err => reject(err.response))
+  })
 }

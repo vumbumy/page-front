@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Login from "@/components/Login";
-import Home from "@/components/Home";
+import Login from "@/pages/Login";
+import Home from "@/pages/Home";
 import store from "@/store";
-import Join from "@/components/Join";
-import Board from "../components/Board";
-import Users from "@/components/Users";
+import Join from "@/pages/Join";
+import Board from "@/pages/Board";
+import Users from "@/pages/Users";
+import PublicBoard from "@/pages/PublicBoard";
 
 Vue.use(Router);
 
@@ -15,11 +16,11 @@ const requireAuth = () => (to, from, next) => {
     if (store.getters.isAuthenticated) {
       return next();
     }
-    next('/login')
+    next('/public')
   })
 };
 
-const requiredAdmin = () => (to, from, next) => {
+const requireAdmin = () => (to, from, next) => {
   store.dispatch("AUTH").then(() => {
     if (store.getters.isAuthenticated && store.getters.isAdmin) {
       return next();
@@ -46,6 +47,10 @@ export default new Router({
       beforeEnter: requireAuth(),
     },
     {
+      path: '/public',
+      component: PublicBoard,
+    },
+    {
       path: '/board',
       component: Board,
       beforeEnter: requireAuth(),
@@ -53,7 +58,7 @@ export default new Router({
     {
       path: '/users',
       component: Users,
-      beforeEnter: requiredAdmin(),
+      beforeEnter: requireAdmin(),
     },
   ]
 })

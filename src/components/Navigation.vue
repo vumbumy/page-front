@@ -1,20 +1,11 @@
 <template>
-  <div>
-    <v-app-bar v-if="isAuthenticated"
-               app
-               clipped-left
-               dense
-               dark
-    >
+  <div v-if="!isLogin">
+    <v-app-bar v-if="isAuthenticated" app clipped-left dense dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer/>
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-cog</v-icon>
           </v-btn>
         </template>
@@ -30,6 +21,12 @@
           </v-list-item>
         </v-list>
       </v-menu>
+    </v-app-bar>
+    <v-app-bar v-else app clipped-left dense dark>
+      <v-btn outlined class="ml-auto" @click="onClickLogin">
+        <v-icon class="mr-1">mdi-login</v-icon>
+        LOGIN
+      </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped v-if="isAuthenticated" width="200px">
@@ -92,6 +89,9 @@ export default {
     }
   },
   computed: {
+    isLogin() {
+      return this.$route.path === "/login"
+    },
     isAuthenticated(){
       return store.getters.isAuthenticated
     },
@@ -105,6 +105,9 @@ export default {
       this.$store
         .dispatch("LOGOUT")
         .then(() => this.$router.push("/login"))
+    },
+    onClickLogin: function (){
+      this.$router.push("/login")
     }
   }
 }

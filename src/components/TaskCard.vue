@@ -7,7 +7,8 @@
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo">
         <v-list-item-content class="pb-0">
-          <v-textarea outlined dense v-model="element.content" @change="onChange(element)"/>
+          {{element.title}}
+<!--          <v-textarea outlined dense v-model="element.content" @change="onChange(element)"/>-->
         </v-list-item-content>
       </v-list-item>
     </draggable>
@@ -62,7 +63,7 @@
 
 <style lang="scss" scoped>
   .v-list-item {
-    background: darkgray;
+    background: dimgray;
     margin: 1% 3%;
   }
   .v-list-item:hover {

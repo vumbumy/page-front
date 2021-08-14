@@ -30,6 +30,8 @@ export default new Vuex.Store({
     //   return state.account
     // },
     isAdmin: (state) => {
+      if (state.account == null) return false;
+
       return state.account.roles.includes(ROLE_ADMIN)
     }
   },

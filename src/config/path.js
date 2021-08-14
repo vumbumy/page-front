@@ -6,7 +6,13 @@ export default {
   admin: {
     users: secured + admin + "/users",
   },
-  tickets: secured + "/tickets",
+  secured: {
+    tickets: secured + "/tickets",
+    tickets_status: secured + "/tickets/status"
+  },
+  api: {
+    tickets: "/tickets"
+  },
   auth: {
     sign: {
       up: '/sign/up',

@@ -6,10 +6,7 @@
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo">
-        <v-list-item-content class="pb-0">
-          {{element.title}}
-<!--          <v-textarea outlined dense v-model="element.content" @change="onChange(element)"/>-->
-        </v-list-item-content>
+        <issue-dialog :value="element" @update="onUpdate"/>
       </v-list-item>
     </draggable>
   </v-card>
@@ -17,10 +14,12 @@
 
 <script>
   import draggable from 'vuedraggable'
+  import IssueDialog from "@/components/IssueDialog";
 
   export default {
     name: "TaskCard",
     components: {
+      IssueDialog,
       draggable,
     },
     props: ['value', 'label'],
@@ -54,8 +53,8 @@
 
         this.$emit("change", added.element)
       },
-      onChange: function (element) {
-        this.$emit("change", element)
+      onUpdate: function () {
+        this.$emit("update", this.status)
       }
     }
   }

@@ -5,17 +5,17 @@
     </v-card-title>
     <div class="fill-height">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo" disabled>
-        <v-list-item-content class="pb-0">
-          {{element.title}}
-        </v-list-item-content>
+        <issue-dialog :value="element"/>
       </v-list-item>
     </div>
   </v-card>
 </template>
 
 <script>
+  import IssueDialog from "@/components/IssueDialog";
   export default {
     name: "TaskCard",
+    components: {IssueDialog},
     props: ['value', 'label'],
     data() {
       return {

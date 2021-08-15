@@ -11,7 +11,8 @@ export default {
     tickets_status: secured + "/tickets/status"
   },
   api: {
-    tickets: "/tickets"
+    tickets: "/tickets",
+    tickets_status: "/tickets/status"
   },
   auth: {
     sign: {

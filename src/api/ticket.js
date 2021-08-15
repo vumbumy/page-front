@@ -2,9 +2,22 @@ import {Api} from "@/api/common";
 
 import path from "@/config/path";
 
-export function getTicketList() {
+export function getTicketStatusList(status = null) {
   return new Promise(function(resolve) {
-    Api.get(path.secured.tickets)
+    Api.get(path.api.tickets_status)
+      .then(res => {
+        resolve(res.data)
+      })
+  });
+}
+
+export function getTicketList(status = null) {
+  return new Promise(function(resolve) {
+    Api.get(path.secured.tickets, {
+      params: {
+        status: status
+      }
+    })
       .then(res => {
         resolve(res.data)
       })
@@ -23,6 +36,15 @@ export function getPublicTicketList() {
 export function createTicket(ticket) {
   return new Promise(function(resolve) {
     Api.post(path.secured.tickets, ticket)
+      .then(res => {
+        resolve(res.data)
+      })
+  });
+}
+
+export function getTicket(ticketNo) {
+  return new Promise(function(resolve) {
+    Api.get(`${path.secured.tickets}/${ticketNo}`)
       .then(res => {
         resolve(res.data)
       })

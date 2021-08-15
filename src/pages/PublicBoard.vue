@@ -11,7 +11,6 @@
 <script>
   import TaskCard from "@/components/PublicTaskCard";
   import {getPublicTicketList, getTicketStatusList} from "@/api/ticket";
-  import {DONE, PROGRESS, REVIEW, TODO} from "@/config/constant";
 
   export default {
     name: "Home",

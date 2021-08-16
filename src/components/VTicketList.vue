@@ -1,12 +1,15 @@
 <template>
-  <v-card height="100%">
+  <v-card height="100%" min-width="250">
     <v-card-title>
       {{label}} ({{taskArr.length}})<v-spacer/>
-      <v-icon v-if="$store.getters.isAdmin" @click="onAdded">mdi-plus</v-icon>
+      <v-icon v-if="$store.getters.isAdmin" @click="onAdd">mdi-plus</v-icon>
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo">
-        <issue-dialog :value="element" @update="onUpdate"/>
+        <v-ticket ref="dialog" :value="element" @update="onUpdate"/>
+      </v-list-item>
+      <v-list-item v-if="added">
+        <v-ticket v-model="added" @update="onUpdate"/>
       </v-list-item>
     </draggable>
   </v-card>
@@ -14,19 +17,21 @@
 
 <script>
   import draggable from 'vuedraggable'
-  import IssueDialog from "@/components/IssueDialog";
+  import VTicket from "@/components/VTicket";
+  import {Ticket} from "@/api/ticket";
 
   export default {
-    name: "TaskCard",
+    name: "VTicketList",
     components: {
-      IssueDialog,
+      VTicket,
       draggable,
     },
     props: ['value', 'label'],
     data() {
       return {
         taskArr: this.value,
-        status: this.label.toUpperCase()
+        status: this.label.toUpperCase(),
+        added: null
       }
     },
     watch:{
@@ -38,11 +43,9 @@
       }
     },
     methods: {
-      onAdded: function () {
-        this.taskArr.push({
-          status: this.status,
-          content: ""
-        })
+      onAdd: function () {
+        this.added = new Ticket()
+        this.added.status = this.status
       },
       onMoved: function ({added}) {
         if (added === undefined) {

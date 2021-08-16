@@ -68,3 +68,23 @@ export function updateTicket(ticket) {
       })
   });
 }
+
+export function deleteTicket(ticketNo) {
+  return new Promise(function(resolve) {
+    Api.delete(`${path.secured.tickets}/${ticketNo}`)
+      .then(res => {
+        resolve(res.data)
+      })
+  });
+}
+
+export class Ticket {
+
+  ticketNo = null;
+
+  title = null;
+
+  content = null;
+
+  status = null;
+}

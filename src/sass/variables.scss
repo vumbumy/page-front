@@ -1,0 +1,6 @@
+$textarea-min-height: 300px !important;
+@import "~vuetify/src/components/VTextarea/VTextarea.sass";
+
+.v-card__text {
+  min-height: 350px;
+}

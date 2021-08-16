@@ -1,21 +1,19 @@
 <template>
-  <v-container class="fill-height">
-    <div class="d-flex flex-row fill-height col-12 justify-space-between flex-wrap" v-if="loading">
-      <div class="col-xs-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
-        <task-card :label="status" :value="arr"/>
-      </div>
+  <div class="d-flex flex-row fill-height col-12 overflow-x-auto overflow-y-hidden" v-if="loading">
+    <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
+      <v-ticket-list-public :label="status" :value="arr"/>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script>
-  import TaskCard from "@/components/PublicTaskCard";
   import {getPublicTicketList, getTicketStatusList} from "@/api/ticket";
+  import VTicketListPublic from "@/components/VTicketListPublic";
 
   export default {
-    name: "Home",
+    name: "PublicBoard",
     components: {
-      TaskCard,
+      VTicketListPublic
     },
     props: {
       source: String,

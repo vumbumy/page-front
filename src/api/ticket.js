@@ -87,4 +87,9 @@ export class Ticket {
   content = null;
 
   status = null;
+
+  isWriteable = false;
+
+  isPublic = false;
+
 }

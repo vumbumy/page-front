@@ -38,9 +38,11 @@ import {getTicketList, getTicketStatusList, Ticket, updateTicketStatus} from "@/
       loadTicketList: async function () {
         this.loading = false;
 
-        await getTicketList().then(arr => {
-          arr.forEach(v => this.taskMap[v.status].push(v))
-        })
+        await getTicketList().then(arr =>
+          arr.forEach(
+            v => this.taskMap[v.status].push(v)
+          )
+        )
 
         this.loading = true
       },

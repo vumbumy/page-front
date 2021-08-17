@@ -76,10 +76,13 @@ export default {
     }
   },
   methods: {
-    loadTicket: function() {
+    loadTicket: async function() {
+      console.log(this.value.ticketNo)
       if (this.value.ticketNo) {
-        getTicket(this.value.ticketNo)
+        await getTicket(this.value.ticketNo)
           .then(value => this.element = value)
+
+        console.log(this.element)
       }
     },
     onClickSave: async function () {

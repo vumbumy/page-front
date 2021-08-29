@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {getTicketList, getTicketStatusList, Ticket, updateTicketStatus} from "@/api/ticket";
+import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/ticket";
   import VTicketList from "@/components/VTicketList";
 
   export default {

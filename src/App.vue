@@ -25,7 +25,5 @@ export default {
 </script>
 
 <style lang="scss">
-  .link-item {
-    text-decoration: none;
-  }
+
 </style>

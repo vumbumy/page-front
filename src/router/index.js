@@ -8,6 +8,8 @@ import Join from "@/pages/Join";
 import Board from "@/pages/Board";
 import Users from "@/pages/Users";
 import PublicBoard from "@/pages/PublicBoard";
+import Group from "@/pages/Group";
+import Project from "@/pages/Project";
 
 Vue.use(Router);
 
@@ -58,6 +60,16 @@ export default new Router({
     {
       path: '/users',
       component: Users,
+      beforeEnter: requireAdmin(),
+    },
+    {
+      path: '/groups',
+      component: Group,
+      beforeEnter: requireAdmin(),
+    },
+    {
+      path: '/projects',
+      component: Project,
       beforeEnter: requireAdmin(),
     },
   ]

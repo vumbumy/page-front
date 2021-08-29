@@ -2,7 +2,6 @@
   <v-container>
     <v-data-table
       hide-default-footer
-      v-if="userList != null"
       :items="userList"
       :headers="columns">
       <template v-slot:item.enabled="{ item }">
@@ -27,12 +26,13 @@ import {ROLE_ADMIN, ROLE_PARTNER, ROLE_USER} from "@/config/constant";
 export default {
   data() {
     return {
-      userList: null,
+      userList: [],
       columns: [
         { text: 'EMAIL', value: 'username' },
         { text: 'PHONE NUMBER', value: 'phoneNumber' },
         { text: 'ROLES', value: 'roles' },
         { text: 'ENABLED', value: 'enabled' },
+        { text: 'CREATED', value: 'createdAt' },
       ],
     }
   },
@@ -50,7 +50,7 @@ export default {
       return user.roles.find(e => e.value === ROLE_PARTNER)
     },
     loadUserList: function () {
-      this.userList = null;
+      this.userList = [];
 
       getUserList().then(ret => {
         this.userList = ret

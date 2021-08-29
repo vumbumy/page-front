@@ -8,7 +8,8 @@ export default {
   },
   secured: {
     tickets: secured + "/tickets",
-    tickets_status: secured + "/tickets/status"
+    tickets_status: secured + "/tickets/status",
+    projects: secured + "/projects"
   },
   api: {
     tickets: "/tickets",

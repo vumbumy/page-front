@@ -4,11 +4,6 @@
       hide-default-footer
       :items="projectList"
       :headers="columns">
-<!--      <template v-slot:item.enabled="{ item }">-->
-<!--        <v-switch @change="toggleEnable(item)"-->
-<!--                  v-model="item.enabled"-->
-<!--        ></v-switch>-->
-<!--      </template>-->
 <!--      <template v-slot:item.roles="{item}">-->
 <!--        <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>-->
 <!--        <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>-->
@@ -20,30 +15,31 @@
 
 <script>
 
+import {getProjectList} from "@/api/project";
+
 export default {
   data() {
     return {
-      projectList: [],
+      projectList: null,
       columns: [
         { text: 'PROJECT', value: 'projectName' },
         { text: 'MANAGER', value: 'managerName'},
-        { text: 'TICKETS'},
-        { text: 'SHARED', value: 'shared' },
+        { text: 'TICKETS', value: 'ticketCount'},
         { text: 'CREATED', value: 'createdAt' },
       ],
     }
   },
   created() {
-    // this.loadProjectList()
+    this.loadProjectList()
   },
   methods: {
-    // loadProjectList: function () {
-    //   this.projectList = null;
-    //
-    //   getProjectList().then(ret => {
-    //     this.projectList = ret
-    //   })
-    // }
+    loadProjectList: function () {
+      this.projectList = [];
+
+      getProjectList().then(ret => {
+        this.projectList = ret
+      })
+    }
   }
 }
 </script>

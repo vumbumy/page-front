@@ -9,7 +9,7 @@
     <v-card v-if="element">
       <v-card-actions class="d-flex flex-row justify-space-between">
         <div class="d-flex">
-          <v-switch dense label="Shared" v-model="element.isPublic" @change="onUpdate"/>
+          <v-switch dense label="Shared" v-model="element.shared" @change="onUpdate"/>
         </div>
         <div>
           <v-btn icon v-if="value.ticketNo != null" @click="onDelete">

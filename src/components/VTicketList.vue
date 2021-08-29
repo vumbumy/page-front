@@ -5,7 +5,7 @@
       <v-icon v-if="$store.getters.isAdmin" @click="onAdd">mdi-plus</v-icon>
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
-      <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="!element.isWriteable">
+      <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="!element.writeable">
         <v-ticket ref="dialog" :value="element" @update="onUpdate"/>
       </v-list-item>
       <v-list-item v-if="added">

@@ -88,8 +88,8 @@ export class Ticket {
 
   status = null;
 
-  isWriteable = false;
+  writeable = false;
 
-  isPublic = false;
+  shared = false;
 
 }

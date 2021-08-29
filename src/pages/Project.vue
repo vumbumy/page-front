@@ -25,7 +25,7 @@ export default {
         { text: 'PROJECT', value: 'projectName' },
         { text: 'MANAGER', value: 'managerName'},
         { text: 'TICKETS', value: 'ticketCount'},
-        { text: 'CREATED', value: 'createdAt' },
+        { text: 'CREATED (UTC)', value: 'createdAt' },
       ],
     }
   },

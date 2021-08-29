@@ -32,7 +32,7 @@ export default {
         { text: 'PHONE NUMBER', value: 'phoneNumber' },
         { text: 'ROLES', value: 'roles' },
         { text: 'ENABLED', value: 'enabled' },
-        { text: 'CREATED', value: 'createdAt' },
+        { text: 'CREATED (UTC)', value: 'createdAt' },
       ],
     }
   },

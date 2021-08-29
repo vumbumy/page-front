@@ -27,7 +27,7 @@ export default {
       columns: [
         { text: 'GROUP', value: 'groupName' },
         { text: 'USERS'},
-        { text: 'CREATED', value: 'createdAt' },
+        { text: 'CREATED (UTC)', value: 'createdAt' },
       ],
     }
   },

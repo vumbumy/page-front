@@ -3,21 +3,19 @@
     <v-data-table
       hide-default-footer
       :items="projectList"
-      :headers="columns">
-<!--      <template v-slot:item.roles="{item}">-->
-<!--        <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>-->
-<!--        <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>-->
-<!--        <v-icon v-else-if="isEnabled(item)">mdi-account</v-icon>-->
-<!--      </template>-->
-    </v-data-table>
+      :headers="columns"
+      @click:row="onClickRow"/>
+    <v-project v-model="selected"/>
   </v-container>
 </template>
 
 <script>
 
-import {getProjectList} from "@/api/project";
+import {getProject, getProjectList} from "@/api/project";
+import VProject from "@/components/VProject";
 
 export default {
+  components: {VProject},
   data() {
     return {
       projectList: null,
@@ -27,6 +25,7 @@ export default {
         { text: 'TICKETS', value: 'ticketCount'},
         { text: 'CREATED (UTC)', value: 'createdAt' },
       ],
+      selected: null,
     }
   },
   created() {
@@ -39,7 +38,10 @@ export default {
       getProjectList().then(ret => {
         this.projectList = ret
       })
-    }
+    },
+    onClickRow: function (item) {
+      this.selected = item
+    },
   }
 }
 </script>

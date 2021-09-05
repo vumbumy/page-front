@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="d-flex flex-column fill-height pa-7">
+  <div v-if="loaded" class="d-flex flex-column fill-height pa-7">
     <div class="d-flex flex-row">
       <v-select outlined :items="projectList" item-text="projectName" item-value="projectNo" v-model="projectNo" @change="onChangeProject"/>
 <!--      <v-spacer/>-->
@@ -39,7 +39,8 @@ import {getProject, getProjectList} from "@/api/project";
         projectInfo: null,
         statusList: [],
         taskMap: {},
-        loading: false
+
+        loaded: false
       }
     },
     created: async function() {
@@ -56,7 +57,7 @@ import {getProject, getProjectList} from "@/api/project";
     },
     methods: {
       loadProjectList: async function () {
-        this.loading = false;
+        this.loaded = false;
 
         await getProjectList().then(arr =>
           this.projectList = arr
@@ -70,11 +71,11 @@ import {getProject, getProjectList} from "@/api/project";
           return;
         }
 
-        this.loading = true
+        this.loaded = true
       },
       onChangeList: updateTicketStatus,
       onChangeProject: async function (projectNo) {
-        this.loading = false;
+        this.loaded = false;
 
         await getProject(projectNo).then(projectInfo =>
           this.projectInfo = projectInfo
@@ -90,17 +91,17 @@ import {getProject, getProjectList} from "@/api/project";
           )
         )
 
-        this.loading = true
+        this.loaded = true
       },
       onUpdate: async function (status) {
-        this.loading = false;
+        this.loaded = false;
 
         await getTicketList(this.projectNo, status)
           .then(list => {
             this.taskMap[status] = list
           })
 
-        this.loading = true
+        this.loaded = true
       }
     }
   }

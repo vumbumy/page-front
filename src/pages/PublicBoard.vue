@@ -1,6 +1,5 @@
-<link rel="stylesheet" href="../sass/variables.scss">
 <template>
-  <div class="d-flex flex-row fill-height col-12 flex-wrap" v-if="loading">
+  <div class="d-flex flex-row fill-height col-12 flex-wrap" v-if="loaded">
     <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
       <v-ticket-list :label="status" :value="arr"/>
     </div>
@@ -23,31 +22,38 @@
       return {
         projectArr: [],
         projectNo: null,
+
+        statusList: {},
         taskMap: {},
-        loading: false
+
+        loaded: false
       }
     },
     created: async function() {
-      await getTicketStatusList().then(statusList => {
-        statusList.forEach(status => {
-          this.taskMap[status] = []
-        })
-      })
+      await getTicketStatusList().then(statusList =>
+        this.statusList = statusList
+      )
 
       await this.loadTicketList()
     },
     methods: {
       loadTicketList: async function () {
-        this.loading = false;
+        this.loaded = false;
+
+        for (const status of this.statusList) {
+          this.taskMap[status] = []
+        }
 
         await getPublicTicketList().then(
-          arr => arr.forEach(
-            v => this.taskMap[v.status]
-              .push(v)
-          )
+          arr => {
+            arr.forEach(
+              v => this.taskMap[v.status]
+                .push(v)
+            )
+          }
         )
 
-        this.loading = true
+        this.loaded = true
       },
     }
   }

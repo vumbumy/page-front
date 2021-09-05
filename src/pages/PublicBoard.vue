@@ -1,7 +1,10 @@
 <template>
   <div class="d-flex flex-row fill-height col-12 flex-wrap" v-if="loaded">
     <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
-      <v-ticket-list :label="status" :value="arr"/>
+      <v-ticket-list
+        :label="status"
+        :value="arr"
+      />
     </div>
   </div>
 </template>

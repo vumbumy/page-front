@@ -89,10 +89,15 @@ export class Ticket {
 
   status = null;
 
-  writeable = false;
+  writable = false;
 
   shared = false;
 
+  constructor(status) {
+    console.log(this.ticketNo)
+
+    this.status = status
+  }
 }
 
 export class Value {

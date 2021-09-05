@@ -11,9 +11,13 @@
     <v-row>
       <v-col cols="12" sm="6" lg="3" v-for="(arr, status) in taskMap" :key="status">
         <v-ticket-list
-          :projectNo="projectNo"
           :label="status"
-          :value="arr" @change="onChangeList" @update="onUpdate" :types="projectInfo.types"/>
+          :projectNo="projectNo"
+          :types="projectInfo.types"
+          :value="arr"
+          @change="onChangeList"
+          @update="onUpdate"
+        />
       </v-col>
     </v-row>
   </div>
@@ -94,14 +98,12 @@ import {getProject, getProjectList} from "@/api/project";
         this.loaded = true
       },
       onUpdate: async function (status) {
-        this.loaded = false;
+        // this.loaded = false;
 
         await getTicketList(this.projectNo, status)
-          .then(list => {
-            this.taskMap[status] = list
-          })
+          .then(list => this.taskMap[status] = list)
 
-        this.loaded = true
+        // this.loaded = true
       }
     }
   }

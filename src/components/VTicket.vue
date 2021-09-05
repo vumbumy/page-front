@@ -2,21 +2,28 @@
   <v-dialog v-model="dialog" width="600">
     <template v-slot:activator="{ on, attrs }">
       <v-list-item-content v-bind="attrs" v-on="on">
-        <span v-text="title"/>
-        <!--          <v-textarea outlined dense v-model="item.content" @change="onChange(item)"/>-->
+        <v-list-item-title>
+          <div class="d-flex flex-column">
+            <div class="font-weight-bold" :class="{'font-italic': isEmptyTitle}" v-text="title"/>
+            <div class="ml-auto overline" v-text="'TKT-' + value.ticketNo"/>
+          </div>
+        </v-list-item-title>
       </v-list-item-content>
     </template>
     <v-card v-if="item">
       <v-card-actions class="d-flex flex-row justify-space-between">
         <div class="d-flex">
-          <v-switch dense label="Shared" v-model="item.shared" @change="onUpdateStatus"/>
+          <v-switch dense label="Shared" v-if="item.writable" v-model="item.shared" @change="onUpdateStatus"/>
         </div>
         <div>
-          <v-btn icon v-if="value.ticketNo != null" @click="onDelete">
+          <v-btn icon v-if="item.writable && !added" @click="onDelete">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
-          <v-btn icon v-if="readonly" @click="readonly = false">
+          <v-btn icon v-if="item.writable && readonly" @click="readonly = false">
             <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn icon v-if="item.writable && !readonly" @click="onClickSave">
+            <v-icon>mdi-content-save</v-icon>
           </v-btn>
           <v-btn icon @click="onClose">
             <v-icon>mdi-close</v-icon>
@@ -31,21 +38,18 @@
         <v-textarea v-for="type in types" :key="type.typeNo" :readonly="readonly" outlined dense :label="type.typeName" v-model="itemValues[type.typeNo]"/>
       </v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn v-if="!readonly && item.ticketNo !== null" text @click="readonly = true">
-          CANCEL
-        </v-btn>
-        <v-btn text @click="onClickSave">
-          SAVE
-        </v-btn>
-      </v-card-actions>
+<!--      <v-card-actions>-->
+<!--        <v-spacer></v-spacer>-->
+<!--        <v-btn :disabled="readonly || added" text @click="readonly = true">-->
+<!--          CANCEL-->
+<!--        </v-btn>-->
+<!--      </v-card-actions>-->
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import {createTicket, deleteTicket, getTicket, updateTicket} from "@/api/ticket";
+import {createTicket, deleteTicket, getTicket, updateTicket, updateTicketStatus} from "@/api/ticket";
 
 export default {
   name: "VTicket",
@@ -65,13 +69,19 @@ export default {
       dialog: this.value.ticketNo === 0,
       readonly: this.value.ticketNo !== 0,
 
-      item: this.value,
+      item: null,
       itemValues: {},
     }
   },
   computed: {
+    isEmptyTitle() {
+      return this.value.ticketName == null || this.value.ticketName === "";
+    },
     title() {
-      return this.value.ticketName == null || this.value.ticketName === "" ? "제목 없음" : this.value.ticketName;
+      return this.isEmptyTitle ? "EMPTY" : this.value.ticketName;
+    },
+    added() {
+      return this.value.ticketNo === 0;
     }
   },
   watch: {
@@ -79,15 +89,14 @@ export default {
       if (this.dialog) {
         this.loadTicket();
       } else {
-        this.$emit("input", null)
+        this.$emit("close")
       }
     }
   },
   methods: {
     loadTicket: async function() {
-      if (this.value.ticketNo) {
+      if (!this.added) {
         let loadedItem = null;
-
         await getTicket(this.value.ticketNo)
           .then(value => loadedItem = value)
 
@@ -102,7 +111,7 @@ export default {
       this.item.projectNo = this.projectNo;
       this.item.values = this.itemValues
 
-      if (this.item.ticketNo !== 0) {
+      if (!this.added) {
         updateTicket(this.item)
           .then(() => {
             this.readonly = true
@@ -119,7 +128,9 @@ export default {
       }
     },
     onUpdateStatus: function () {
-      // updateTicket(this.item)
+      if (!this.added) {
+        updateTicketStatus(this.item)
+      }
     },
     onDelete: function () {
       deleteTicket(this.item.ticketNo)

@@ -3,13 +3,13 @@
     <template v-slot:activator="{ on, attrs }">
       <v-list-item-content v-bind="attrs" v-on="on">
         <span v-text="title"/>
-        <!--          <v-textarea outlined dense v-model="element.content" @change="onChange(element)"/>-->
+        <!--          <v-textarea outlined dense v-model="item.content" @change="onChange(item)"/>-->
       </v-list-item-content>
     </template>
-    <v-card v-if="element">
+    <v-card v-if="item">
       <v-card-actions class="d-flex flex-row justify-space-between">
         <div class="d-flex">
-          <v-switch dense label="Shared" v-model="element.shared" @change="onUpdate"/>
+          <v-switch dense label="Shared" v-model="item.shared" @change="onUpdateStatus"/>
         </div>
         <div>
           <v-btn icon v-if="value.ticketNo != null" @click="onDelete">
@@ -24,16 +24,16 @@
         </div>
       </v-card-actions>
       <v-card-title>
-        <v-text-field :readonly="readonly" outlined label="Title" v-model="element.title"/>
+        <v-text-field :readonly="readonly" outlined label="Title" v-model="item.ticketName"/>
       </v-card-title>
 
       <v-card-text>
-        <v-textarea :readonly="readonly" outlined dense label="Content" v-model="element.content"/>
+        <v-textarea v-for="type in types" :key="type.typeNo" :readonly="readonly" outlined dense :label="type.typeName" v-model="itemValues[type.typeNo]"/>
       </v-card-text>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn v-if="!readonly && element.ticketNo !== null" text @click="readonly = true">
+        <v-btn v-if="!readonly && item.ticketNo !== null" text @click="readonly = true">
           CANCEL
         </v-btn>
         <v-btn text @click="onClickSave">
@@ -45,25 +45,33 @@
 </template>
 
 <script>
-import {createTicket, deleteTicket, getTicket, Ticket, updateTicket} from "@/api/ticket";
+import {createTicket, deleteTicket, getTicket, updateTicket} from "@/api/ticket";
 
 export default {
   name: "VTicket",
   props: {
     value: {
       type: Object
+    },
+    types: {
+      type: Array
+    },
+    projectNo: {
+      type: Number
     }
   },
   data() {
     return {
-      dialog: this.value.ticketNo == null,
-      readonly: this.value.ticketNo !== null,
-      element: this.value
+      dialog: this.value.ticketNo === 0,
+      readonly: this.value.ticketNo !== 0,
+
+      item: this.value,
+      itemValues: {},
     }
   },
   computed: {
     title() {
-      return this.value.title == null || this.value.title === "" ? "제목 없음" : this.value.title;
+      return this.value.ticketName == null || this.value.ticketName === "" ? "제목 없음" : this.value.ticketName;
     }
   },
   watch: {
@@ -77,24 +85,32 @@ export default {
   },
   methods: {
     loadTicket: async function() {
-      console.log(this.value.ticketNo)
       if (this.value.ticketNo) {
-        await getTicket(this.value.ticketNo)
-          .then(value => this.element = value)
+        let loadedItem = null;
 
-        console.log(this.element)
+        await getTicket(this.value.ticketNo)
+          .then(value => loadedItem = value)
+
+        await loadedItem.values.forEach(
+          ({typeNo, dataValue}) => this.itemValues[typeNo] = dataValue
+        )
+
+        this.item = loadedItem;
       }
     },
     onClickSave: async function () {
-      if (this.element.ticketNo != null) {
-        updateTicket(this.element)
+      this.item.projectNo = this.projectNo;
+      this.item.values = this.itemValues
+
+      if (this.item.ticketNo !== 0) {
+        updateTicket(this.item)
           .then(() => {
             this.readonly = true
 
             this.$emit("update")
           })
       } else {
-        createTicket(this.element)
+        createTicket(this.item)
           .then(() => {
             this.readonly = true
 
@@ -102,11 +118,11 @@ export default {
           })
       }
     },
-    onUpdate: function () {
-      updateTicket(this.element)
+    onUpdateStatus: function () {
+      // updateTicket(this.item)
     },
     onDelete: function () {
-      deleteTicket(this.element.ticketNo)
+      deleteTicket(this.item.ticketNo)
         .then(() => {
           this.readonly = true
 

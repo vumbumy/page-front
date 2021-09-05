@@ -1,14 +1,28 @@
 <template>
-  <div class="d-flex flex-row fill-height col-12 flex-wrap" v-if="loading">
-    <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
-      <v-ticket-list :label="status" :value="arr" @change="onChange" @update="onUpdate"/>
+  <div v-if="loading" class="d-flex flex-column fill-height pa-7">
+    <div class="d-flex flex-row">
+      <v-select outlined :items="projectList" item-text="projectName" item-value="projectNo" v-model="projectNo" @change="onChangeProject"/>
+<!--      <v-spacer/>-->
+<!--      <div class="d-flex flex-column" v-if="projectNo">-->
+<!--        <div v-text="project.createdAt"/>-->
+<!--        <div v-text="project.managerName"/>-->
+<!--      </div>-->
     </div>
+    <v-row>
+      <v-col cols="12" sm="6" lg="3" v-for="(arr, status) in taskMap" :key="status">
+        <v-ticket-list
+          :projectNo="projectNo"
+          :label="status"
+          :value="arr" @change="onChangeList" @update="onUpdate" :types="projectInfo.types"/>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/ticket";
   import VTicketList from "@/components/VTicketList";
+import {getProject, getProjectList} from "@/api/project";
 
   export default {
     name: "Board",
@@ -20,25 +34,57 @@ import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/tick
     },
     data() {
       return {
-        dragging: false,
+        projectList: [],
+        projectNo: null,
+        projectInfo: null,
+        statusList: [],
         taskMap: {},
         loading: false
       }
     },
     created: async function() {
-      await getTicketStatusList().then(statusList => {
-        statusList.forEach(status => {
-          this.taskMap[status] = []
-        })
-      })
+      await getTicketStatusList().then(statusList =>
+        this.statusList = statusList
+      )
 
-      await this.loadTicketList()
+      await this.loadProjectList()
+    },
+    computed: {
+      project() {
+        return this.projectList.find(value => value.projectNo === this.projectNo)
+      }
     },
     methods: {
-      loadTicketList: async function () {
+      loadProjectList: async function () {
         this.loading = false;
 
-        await getTicketList().then(arr =>
+        await getProjectList().then(arr =>
+          this.projectList = arr
+        )
+
+        if (this.projectList.length > 0) {
+          this.projectNo = this.projectList[0].projectNo;
+
+          await this.onChangeProject(this.projectNo);
+
+          return;
+        }
+
+        this.loading = true
+      },
+      onChangeList: updateTicketStatus,
+      onChangeProject: async function (projectNo) {
+        this.loading = false;
+
+        await getProject(projectNo).then(projectInfo =>
+          this.projectInfo = projectInfo
+        )
+
+        for (const status of this.statusList) {
+          this.taskMap[status] = []
+        }
+
+        await getTicketList(projectNo).then(arr =>
           arr.forEach(
             v => this.taskMap[v.status].push(v)
           )
@@ -46,13 +92,10 @@ import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/tick
 
         this.loading = true
       },
-      onChange: function (ticket) {
-        updateTicketStatus(ticket)
-      },
       onUpdate: async function (status) {
         this.loading = false;
 
-        await getTicketList(status)
+        await getTicketList(this.projectNo, status)
           .then(list => {
             this.taskMap[status] = list
           })
@@ -62,3 +105,7 @@ import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/tick
     }
   }
 </script>
+
+<style lang="scss" scoped>
+
+</style>

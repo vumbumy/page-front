@@ -11,10 +11,11 @@ export function getTicketStatusList(status = null) {
   });
 }
 
-export function getTicketList(status = null) {
+export function getTicketList(projectNo = null, status = null) {
   return new Promise(function(resolve) {
     Api.get(path.secured.tickets, {
       params: {
+        projectNo: projectNo,
         status: status
       }
     })
@@ -80,11 +81,11 @@ export function deleteTicket(ticketNo) {
 
 export class Ticket {
 
-  ticketNo = null;
+  ticketNo = 0;
 
-  title = null;
+  ticketName = null;
 
-  content = null;
+  values = null;
 
   status = null;
 
@@ -92,4 +93,12 @@ export class Ticket {
 
   shared = false;
 
+}
+
+export class Value {
+  valueNo = 0;
+
+  typeNo = 0;
+
+  dataValue = null;
 }

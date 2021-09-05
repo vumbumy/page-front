@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../sass/variables.scss">
 <template>
   <div class="d-flex flex-row fill-height col-12 flex-wrap" v-if="loading">
     <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
@@ -20,7 +21,8 @@
     },
     data() {
       return {
-        dragging: false,
+        projectArr: [],
+        projectNo: null,
         taskMap: {},
         loading: false
       }

@@ -53,6 +53,7 @@ export default new Router({
       component: PublicBoard,
     },
     {
+      name: 'board',
       path: '/board',
       component: Board,
       beforeEnter: requireAuth(),

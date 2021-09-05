@@ -6,12 +6,13 @@
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="!element.writeable">
-        <v-ticket ref="dialog" :value="element" @update="onUpdate"/>
+        <v-ticket ref="dialog" :value="element" @update="onUpdate" :types="types" :project-no="projectNo"/>
       </v-list-item>
       <v-list-item v-if="added">
-        <v-ticket v-model="added" @update="onUpdate"/>
+        <v-ticket v-model="added" @update="onUpdate" :types="types" :project-no="projectNo"/>
       </v-list-item>
     </draggable>
+    <v-spacer/>
   </v-card>
 </template>
 
@@ -26,7 +27,7 @@
       VTicket,
       draggable,
     },
-    props: ['value', 'label'],
+    props: ['value', 'label', 'types', 'projectNo'],
     data() {
       return {
         taskArr: this.value,

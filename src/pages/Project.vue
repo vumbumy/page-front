@@ -12,7 +12,7 @@
 <script>
 
 import {getProject, getProjectList} from "@/api/project";
-import VProject from "@/components/VProject";
+import VProject from "@/components/Project";
 
 export default {
   components: {VProject},
@@ -36,8 +36,11 @@ export default {
       this.projectList = [];
 
       getProjectList().then(ret => {
+        console.log(ret)
         this.projectList = ret
       })
+
+      console.log(this.projectList)
     },
     onClickRow: function (item) {
       this.selected = item

@@ -21,7 +21,7 @@
 
 <script>
   import draggable from 'vuedraggable'
-  import VTicket from "@/components/VTicket";
+  import VTicket from "@/components/Ticket";
   import {Ticket} from "@/api/ticket";
 
   export default {

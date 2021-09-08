@@ -89,13 +89,11 @@ export class Ticket {
 
   status = null;
 
-  writable = false;
+  writable = true;
 
-  shared = false;
+  readable = false;
 
   constructor(status) {
-    console.log(this.ticketNo)
-
     this.status = status
   }
 }

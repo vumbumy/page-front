@@ -2,6 +2,8 @@
   <v-dialog v-model="dialog" max-width="600px">
     <v-card v-if="project">
       <v-card-title class="d-flex justify-end">
+        <v-read-write-access-select/>
+        <v-spacer/>
         <v-btn icon><v-icon>mdi-pencil</v-icon></v-btn>
         <v-btn icon><v-icon>mdi-delete</v-icon></v-btn>
         <v-btn icon><v-icon>mdi-content-save</v-icon></v-btn>
@@ -50,9 +52,11 @@
 
 <script>
 import {getProject} from "@/api/project";
+import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
 
 export default {
   name: "VProject",
+  components: {VReadWriteAccessSelect},
   props: {
     value: {
       type: Object
@@ -69,6 +73,8 @@ export default {
       if (this.value) {
         await getProject(this.value.projectNo)
           .then(value => this.project = value)
+
+        console.log(this.project)
 
         this.dialog = true
       }

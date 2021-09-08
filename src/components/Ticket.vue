@@ -5,7 +5,7 @@
         <v-list-item-title>
           <div class="d-flex flex-column">
             <div class="font-weight-bold" :class="{'font-italic': isEmptyTitle}" v-text="title"/>
-            <div class="ml-auto overline" v-text="'TKT-' + value.ticketNo"/>
+            <div v-if="!added" class="ml-auto overline" v-text="'TKT-' + value.ticketNo"/>
           </div>
         </v-list-item-title>
       </v-list-item-content>
@@ -13,7 +13,7 @@
     <v-card v-if="item">
       <v-card-actions class="d-flex flex-row justify-space-between">
         <div class="d-flex">
-          <v-switch dense label="Shared" v-if="item.writable" v-model="item.shared" @change="onUpdateStatus"/>
+          <v-switch dense label="Shared" v-if="item.writable" v-model="item.readable" @change="onUpdateStatus"/>
         </div>
         <div>
           <v-btn icon v-if="item.writable && !added" @click="onDelete">
@@ -69,9 +69,14 @@ export default {
       dialog: this.value.ticketNo === 0,
       readonly: this.value.ticketNo !== 0,
 
-      item: null,
+      item: this.value,
       itemValues: {},
     }
+  },
+  created() {
+    console.log(this.value)
+    console.log(this.dialog)
+    console.log(this.readonly)
   },
   computed: {
     isEmptyTitle() {
@@ -106,6 +111,8 @@ export default {
 
         this.item = loadedItem;
       }
+
+      console.log(this.item)
     },
     onClickSave: async function () {
       this.item.projectNo = this.projectNo;

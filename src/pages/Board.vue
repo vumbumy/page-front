@@ -25,7 +25,7 @@
 
 <script>
 import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/ticket";
-  import VTicketList from "@/components/VTicketList";
+  import VTicketList from "@/components/TicketList";
 import {getProject, getProjectList} from "@/api/project";
 
   export default {
@@ -98,12 +98,13 @@ import {getProject, getProjectList} from "@/api/project";
         this.loaded = true
       },
       onUpdate: async function (status) {
-        // this.loaded = false;
+        // TODO: Add loaded each status
+        this.loaded = false;
 
         await getTicketList(this.projectNo, status)
           .then(list => this.taskMap[status] = list)
 
-        // this.loaded = true
+        this.loaded = true
       }
     }
   }

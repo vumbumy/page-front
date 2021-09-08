@@ -11,7 +11,7 @@
 
 <script>
   import {getPublicTicketList, getTicketStatusList} from "@/api/ticket";
-  import VTicketList from "@/components/VTicketList";
+  import VTicketList from "@/components/TicketList";
 
   export default {
     name: "PublicBoard",

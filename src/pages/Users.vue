@@ -3,7 +3,9 @@
     <v-data-table
       hide-default-footer
       :items="userList"
-      :headers="columns">
+      :headers="columns"
+      @click:row="onClick"
+    >
       <template v-slot:item.enabled="{ item }">
         <v-switch @change="toggleEnable(item)"
                   v-model="item.enabled"
@@ -28,7 +30,7 @@ export default {
     return {
       userList: [],
       columns: [
-        { text: 'EMAIL', value: 'username' },
+        { text: 'EMAIL', value: 'email' },
         { text: 'PHONE NUMBER', value: 'phoneNumber' },
         { text: 'ROLES', value: 'roles' },
         { text: 'ENABLED', value: 'enabled' },
@@ -55,6 +57,9 @@ export default {
       getUserList().then(ret => {
         this.userList = ret
       })
+    },
+    onClick(row) {
+      console.log(row)
     },
     toggleEnable: function (user) {
       if (user.enabled) {

@@ -37,10 +37,10 @@ export default new Vuex.Store({
   },
   mutations: {
     setToken(state, { data }) {
-      Api.defaults.headers["X-Auth-Token"] = data.token
+      Api.defaults.headers["X-Auth-Token"] = data
 
       // 토큰을 로컬 스토리지에 저장
-      localStorage.accessToken = data.token
+      localStorage.accessToken = data
     },
     clear(state) {
       state.account = null;
@@ -55,7 +55,7 @@ export default new Vuex.Store({
     LOGIN({ commit }, { email, password }) {
       return new Promise((resolve, reject) => Api.post(path.auth.sign.in,
         {
-          userName: email,
+          email: email,
           password: password
         })
         .then(res => {

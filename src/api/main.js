@@ -4,7 +4,7 @@ import path from "@/config/path";
 
 export function join (email, password) {
   let data = {
-    userName: email,
+    email: email,
     password: password
   }
 

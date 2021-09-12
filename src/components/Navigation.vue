@@ -46,20 +46,20 @@
         <router-link class="link-item" to="/projects">
           <v-list-item link>
             <v-list-item-action>
-              <v-icon>mdi-view-array</v-icon>
+              <v-icon>mdi-folder</v-icon>
             </v-list-item-action>
             <v-list-item-content class="text-left">
               <v-list-item-title>Project</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>
-        <router-link class="link-item" to="/board">
+        <router-link class="link-item" to="/issue">
           <v-list-item link>
             <v-list-item-action>
-              <v-icon>mdi-view-array</v-icon>
+              <v-icon>mdi-forum</v-icon>
             </v-list-item-action>
             <v-list-item-content class="text-left">
-              <v-list-item-title>Board</v-list-item-title>
+              <v-list-item-title>Issue</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>

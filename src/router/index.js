@@ -5,11 +5,11 @@ import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 import store from "@/store";
 import Join from "@/pages/Join";
-import Board from "@/pages/Board";
 import Users from "@/pages/Users";
 import PublicBoard from "@/pages/PublicBoard";
 import Group from "@/pages/Group";
 import Project from "@/pages/Project";
+import Issue from "../pages/Issue";
 
 Vue.use(Router);
 
@@ -53,9 +53,8 @@ export default new Router({
       component: PublicBoard,
     },
     {
-      name: 'board',
-      path: '/board',
-      component: Board,
+      path: '/issue',
+      component: Issue,
       beforeEnter: requireAuth(),
     },
     {

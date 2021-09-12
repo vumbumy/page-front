@@ -29,7 +29,7 @@ import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/tick
 import {getProject, getProjectList} from "@/api/project";
 
   export default {
-    name: "Board",
+    name: "Issue",
     components: {
       VTicketList,
     },

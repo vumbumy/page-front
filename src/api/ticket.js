@@ -61,6 +61,15 @@ export function updateTicketStatus(ticket) {
   });
 }
 
+export function updateTicketPermissions(ticketNo, permissions) {
+  return new Promise(function(resolve) {
+    Api.put(`${path.secured.tickets}/${ticketNo}/permissions`, permissions)
+      .then(res => {
+        resolve(res.data)
+      })
+  });
+}
+
 export function updateTicket(ticket) {
   return new Promise(function(resolve) {
     Api.put(path.secured.tickets, ticket)

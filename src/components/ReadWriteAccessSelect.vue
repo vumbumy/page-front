@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-access-select value="PUBLIC"/>
+    <v-access-select access="READ" @update="onUpdate" v-model="readPermissions"/>
     /
-    <v-access-select value="PRIVATE"/>
+    <v-access-select access="WRITE" @update="onUpdate" v-model="writePermissions"/>
   </div>
 </template>
 
@@ -10,23 +10,35 @@
 import VAccessSelect from "@/components/AccessSelect";
 export default {
   name: "VReadWriteAccessSelect",
+  components: {VAccessSelect},
   props: {
     value: {
-      type: Object
+      type: Array
     },
-    readable: {
-      type: Boolean
-    },
-    wrtiable: {
-      type: Boolean
-    }
   },
   data() {
     return {
-      permissions: this.value
+      readPermissions: [],
+      writePermissions: []
     }
   },
-  components: {VAccessSelect}
+  watch: {
+    value() {
+      if (this.value) {
+        this.readPermissions = this.value.filter(
+          permission => permission.accessRight === "READ"
+        )
+        this.writePermissions = this.value.filter(
+          permission => permission.accessRight === "WRITE"
+        )
+      }
+    }
+  },
+  methods: {
+    onUpdate(permission) {
+      this.$emit('update', [permission])
+    }
+  }
 }
 </script>
 

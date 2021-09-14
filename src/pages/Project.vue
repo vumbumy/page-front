@@ -32,15 +32,12 @@ export default {
     this.loadProjectList()
   },
   methods: {
-    loadProjectList: function () {
+    loadProjectList: async function () {
       this.projectList = [];
 
-      getProjectList().then(ret => {
-        console.log(ret)
+      await getProjectList().then(ret => {
         this.projectList = ret
       })
-
-      console.log(this.projectList)
     },
     onClickRow: function (item) {
       this.selected = item

@@ -4,7 +4,7 @@
       {{label}} ({{taskArr.length}})<v-spacer/>
       <v-icon v-if="$store.getters.isAdmin" @click="onAdd">mdi-plus</v-icon>
     </v-card-title>
-    <div class="fill-height">
+    <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="projectNo == null">
         <v-ticket
           :value="element"
@@ -14,19 +14,21 @@
           @close="onClose"
         />
       </v-list-item>
-    </div>
+    </draggable>
     <v-spacer/>
   </v-card>
 </template>
 
 <script>
+  import draggable from 'vuedraggable'
   import VTicket from "@/components/Ticket";
   import {Ticket} from "@/api/ticket";
 
   export default {
-    name: "VTicketList",
+    name: "VDraggableList",
     components: {
-      VTicket
+      VTicket,
+      draggable,
     },
     props: ['value', 'label', 'types', 'projectNo'],
     data() {

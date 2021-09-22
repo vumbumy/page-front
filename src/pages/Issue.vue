@@ -10,7 +10,7 @@
     </div>
     <v-row>
       <v-col cols="12" sm="6" lg="3" v-for="(arr, status) in taskMap" :key="status">
-        <v-ticket-list
+        <v-draggable-list
           :label="status"
           :projectNo="projectNo"
           :types="projectInfo.types"
@@ -25,13 +25,13 @@
 
 <script>
 import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/ticket";
-  import VTicketList from "@/components/TicketList";
 import {getProject, getProjectList} from "@/api/project";
+import VDraggableList from "@/components/DraggableList";
 
   export default {
     name: "Issue",
     components: {
-      VTicketList,
+      VDraggableList,
     },
     props: {
       source: String,

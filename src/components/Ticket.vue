@@ -12,7 +12,7 @@
     </template>
     <v-card v-if="item">
       <v-card-actions class="d-flex justify-end">
-        <v-read-write-access-select v-model="item.permissions" @update="onUpdatePermissions"/>
+        <v-read-write-access-select v-if="!shared" v-model="item.permissions" @update="onUpdatePermissions"/>
         <v-spacer/>
         <v-btn icon v-if="item.writable && !added" @click="onDelete">
           <v-icon>mdi-delete</v-icon>
@@ -48,7 +48,7 @@
 <script>
 import {
   createTicket,
-  deleteTicket,
+  deleteTicket, getPublicTicket,
   getTicket,
   updateTicket,
   updateTicketPermissions,
@@ -79,11 +79,6 @@ export default {
       itemValues: {},
     }
   },
-  created() {
-    console.log(this.value)
-    console.log(this.dialog)
-    console.log(this.readonly)
-  },
   computed: {
     isEmptyTitle() {
       return this.value.ticketName == null || this.value.ticketName === "";
@@ -93,6 +88,9 @@ export default {
     },
     added() {
       return this.item.ticketNo === 0;
+    },
+    shared() {
+      return this.projectNo === 0;
     }
   },
   watch: {
@@ -106,17 +104,23 @@ export default {
   },
   methods: {
     loadTicket: async function() {
-      if (!this.added) {
-        let loadedItem = null;
+      let loadedItem = null;
+
+      if (this.shared) {
+        await getPublicTicket(this.value.ticketNo)
+          .then(value => loadedItem = value)
+      } else if (!this.added) {
         await getTicket(this.value.ticketNo)
           .then(value => loadedItem = value)
+      }
 
+      if (loadedItem != null) {
         await loadedItem.values.forEach(
           ({typeNo, dataValue}) => this.itemValues[typeNo] = dataValue
         )
-
-        this.item = loadedItem;
       }
+
+      this.item = loadedItem;
     },
     onClickSave: async function () {
       this.item.projectNo = this.projectNo;

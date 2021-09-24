@@ -34,6 +34,15 @@ export function getPublicTicketList() {
   });
 }
 
+export function getPublicTicket(ticketNo) {
+  return new Promise(function(resolve) {
+    Api.get(`${path.api.tickets}/${ticketNo}`)
+      .then(res => {
+        resolve(res.data)
+      })
+  });
+}
+
 export function createTicket(ticket) {
   return new Promise(function(resolve) {
     Api.post(path.secured.tickets, ticket)
@@ -100,7 +109,7 @@ export class Ticket {
 
   writable = true;
 
-  readable = false;
+  // readable = false;
 
   constructor(status) {
     this.status = status

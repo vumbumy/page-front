@@ -29,7 +29,7 @@ import {getProject, getProjectList} from "@/api/project";
 import VDraggableList from "@/components/DraggableList";
 
   export default {
-    name: "Issue",
+    name: "Board",
     components: {
       VDraggableList,
     },

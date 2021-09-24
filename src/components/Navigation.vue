@@ -53,13 +53,13 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
-        <router-link class="link-item" to="/issue">
+        <router-link class="link-item" to="/board">
           <v-list-item link>
             <v-list-item-action>
               <v-icon>mdi-forum</v-icon>
             </v-list-item-action>
             <v-list-item-content class="text-left">
-              <v-list-item-title>Issue</v-list-item-title>
+              <v-list-item-title>Board</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>

@@ -12,6 +12,8 @@ export default {
     projects: secured + "/projects"
   },
   api: {
+    types: "/types",
+    types_data_types: "/types/data-types",
     tickets: "/tickets",
     tickets_status: "/tickets/status"
   },

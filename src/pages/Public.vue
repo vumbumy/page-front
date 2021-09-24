@@ -3,8 +3,9 @@
     <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
       <v-ticket-list
         :label="status"
-        :value="arr"
         :project-no="0"
+        :types="typeList"
+        :value="arr"
       />
     </div>
   </div>
@@ -13,9 +14,10 @@
 <script>
   import {getPublicTicketList, getTicketStatusList} from "@/api/ticket";
   import VTicketList from "@/components/TicketList";
+  import {getTypeList} from "@/api/types";
 
   export default {
-    name: "PublicBoard",
+    name: "Public",
     components: {
       VTicketList
     },
@@ -24,8 +26,9 @@
     },
     data() {
       return {
-        projectArr: [],
+        // projectArr: [],
         projectNo: null,
+        typeList: [],
 
         statusList: {},
         taskMap: {},
@@ -47,6 +50,10 @@
         for (const status of this.statusList) {
           this.taskMap[status] = []
         }
+
+        await getTypeList().then(
+          value => this.typeList = value
+        )
 
         await getPublicTicketList().then(
           arr => {

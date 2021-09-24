@@ -6,7 +6,7 @@ import Home from "@/pages/Home";
 import store from "@/store";
 import Join from "@/pages/Join";
 import Users from "@/pages/Users";
-import PublicBoard from "@/pages/PublicBoard";
+import Public from "@/pages/Public";
 import Group from "@/pages/Group";
 import Project from "@/pages/Project";
 import Issue from "../pages/Issue";
@@ -50,7 +50,7 @@ export default new Router({
     },
     {
       path: '/public',
-      component: PublicBoard,
+      component: Public,
     },
     {
       path: '/issue',

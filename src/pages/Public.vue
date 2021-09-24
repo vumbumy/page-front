@@ -4,6 +4,7 @@
       <v-ticket-list
         :label="status"
         :value="arr"
+        :project-no="0"
       />
     </div>
   </div>

@@ -1,11 +1,24 @@
 <template>
   <v-container>
-    <v-data-table
-      hide-default-footer
-      :items="projectList"
-      :headers="columns"
-      @click:row="onClickRow"/>
-    <v-project v-model="selected"/>
+    <div class="d-flex flex-column">
+      <v-fab-transition>
+        <v-btn
+          class="mb-10"
+          absolute
+          bottom
+          right
+          fab
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <v-data-table
+        hide-default-footer
+        :items="projectList"
+        :headers="columns"
+        @click:row="onClickRow"/>
+      <v-project v-model="selected"/>
+    </div>
   </v-container>
 </template>
 

@@ -59,3 +59,11 @@ export function deleteProject(projectNo) {
       })
   });
 }
+
+export class Project {
+  projectName = null;
+  startedAt = null;
+  endedAt = null;
+  description = null;
+  types = null;
+}

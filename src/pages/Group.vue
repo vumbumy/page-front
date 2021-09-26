@@ -1,20 +1,33 @@
 <template>
   <v-container>
-    <v-data-table
-      hide-default-footer
-      :items="groupList"
-      :headers="columns">
-      <!--      <template v-slot:item.enabled="{ item }">-->
-      <!--        <v-switch @change="toggleEnable(item)"-->
-      <!--                  v-model="item.enabled"-->
-      <!--        ></v-switch>-->
-      <!--      </template>-->
-      <!--      <template v-slot:item.roles="{item}">-->
-      <!--        <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>-->
-      <!--        <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>-->
-      <!--        <v-icon v-else-if="isEnabled(item)">mdi-account</v-icon>-->
-      <!--      </template>-->
-    </v-data-table>
+    <div class="d-flex flex-column">
+      <v-fab-transition>
+        <v-btn
+          class="mb-10"
+          absolute
+          bottom
+          right
+          fab
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <v-data-table
+        hide-default-footer
+        :items="groupList"
+        :headers="columns">
+        <!--      <template v-slot:item.enabled="{ item }">-->
+        <!--        <v-switch @change="toggleEnable(item)"-->
+        <!--                  v-model="item.enabled"-->
+        <!--        ></v-switch>-->
+        <!--      </template>-->
+        <!--      <template v-slot:item.roles="{item}">-->
+        <!--        <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>-->
+        <!--        <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>-->
+        <!--        <v-icon v-else-if="isEnabled(item)">mdi-account</v-icon>-->
+        <!--      </template>-->
+      </v-data-table>
+    </div>
   </v-container>
 </template>
 

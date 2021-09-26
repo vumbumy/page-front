@@ -3,6 +3,9 @@ import App from './App.vue'
 
 import vuetify from '@/plugins/vuetify' // path to vuetify export
 
+import vueMoment from 'vue-moment'
+Vue.use(vueMoment)
+
 import router from './router';
 import store from "./store";
 

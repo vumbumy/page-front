@@ -56,7 +56,9 @@ import VDraggableList from "@/components/DraggableList";
     },
     computed: {
       project() {
-        return this.projectList.find(value => value.projectNo === this.projectNo)
+        return this.projectList.find(
+          value => value.projectNo === this.projectNo
+        )
       }
     },
     methods: {

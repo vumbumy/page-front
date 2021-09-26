@@ -18,3 +18,13 @@ export function getDataTypeList() {
       })
   });
 }
+
+export class Type {
+  dataType = null;
+
+  typeName = null;
+
+  defaultValue = null;
+
+  required = false;
+}

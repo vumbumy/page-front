@@ -33,28 +33,30 @@
 
 <script>
 
+import {getUserGroupList} from "@/api/group";
+
 export default {
   data() {
     return {
       groupList: [],
       columns: [
         { text: 'GROUP', value: 'groupName' },
-        { text: 'USERS'},
         { text: 'CREATED (UTC)', value: 'createdAt' },
+        { text: 'ACTION'},
       ],
     }
   },
   created() {
-    // this.loadGroupList()
+    this.loadGroupList()
   },
   methods: {
-    // loadGroupList: function () {
-    //   this.groupList = null;
-    //
-    //   getGroupList().then(ret => {
-    //     this.groupList = ret
-    //   })
-    // }
+    loadGroupList: function () {
+      this.groupList = [];
+
+      getUserGroupList().then(ret => {
+        this.groupList = ret
+      })
+    }
   }
 }
 </script>

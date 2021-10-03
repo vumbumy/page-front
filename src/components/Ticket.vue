@@ -32,7 +32,24 @@
       </v-card-title>
 
       <v-card-text>
-        <v-textarea v-for="type in types" :key="type.typeNo" :readonly="readonly" outlined dense :label="type.typeName" v-model="itemValues[type.typeNo]"/>
+        <div v-for="type in types" :key="type.typeNo">
+          <v-textarea
+            v-if="type.dataType === 'TextArea'"
+            outlined
+            dense
+            :readonly="readonly"
+            :label="type.typeName"
+            v-model="itemValues[type.typeNo]"
+          />
+          <v-text-field
+            v-else-if="type.dataType === 'Text' || type.dataType === 'URL'"
+            outlined
+            dense
+            :readonly="readonly"
+            :label="type.typeName"
+            v-model="itemValues[type.typeNo]"
+          />
+        </div>
       </v-card-text>
 
 <!--      <v-card-actions>-->

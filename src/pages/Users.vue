@@ -6,11 +6,11 @@
       :headers="columns"
       @click:row="onClick"
     >
-      <template v-slot:item.enabled="{ item }">
-        <v-switch @change="toggleEnable(item)"
-                  v-model="item.enabled"
-        ></v-switch>
-      </template>
+<!--      <template v-slot:item.enabled="{ item }">-->
+<!--        <v-switch @change="toggleEnable(item)"-->
+<!--                  v-model="item.enabled"-->
+<!--        ></v-switch>-->
+<!--      </template>-->
       <template v-slot:item.roles="{item}">
         <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>
         <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>
@@ -33,7 +33,7 @@ export default {
         { text: 'EMAIL', value: 'email' },
         { text: 'PHONE NUMBER', value: 'phoneNumber' },
         { text: 'ROLES', value: 'roles' },
-        { text: 'ENABLED', value: 'enabled' },
+        // { text: 'ENABLED', value: 'enabled' },
         { text: 'CREATED (UTC)', value: 'createdAt' },
       ],
     }
@@ -59,7 +59,7 @@ export default {
       })
     },
     onClick(row) {
-      console.log(row)
+      // console.log(row)
     },
     toggleEnable: function (user) {
       if (user.enabled) {

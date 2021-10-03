@@ -28,7 +28,7 @@
           <v-textarea outlined placeholder="Description" v-model="project.description"/>
           <v-data-table :headers="headers" hide-default-footer :items="project.types" disable-sort disable-filtering>
             <template v-slot:item.dataType="{ item }">
-              <v-select class="caption" dense :items="['String', 'Number', 'Datetime']" v-model="item.dataType"/>
+              <v-select class="caption" dense :items="dataTypeList" v-model="item.dataType"/>
             </template>
             <template v-slot:item.typeName="{ item }">
               <v-text-field class="caption" dense v-model="item.typeName"/>
@@ -82,7 +82,7 @@
 <script>
 import {deleteProject, getProject} from "@/api/project";
 import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
-import {Type} from "../api/types";
+import {getDataTypeList, Type} from "../api/types";
 import {createProject, updateProject} from "../api/project";
 import VDateSelector from "./DateSelector";
 
@@ -124,6 +124,8 @@ export default {
         },
       ],
       project: null,
+
+      dataTypeList: []
     }
   },
   computed: {
@@ -148,6 +150,9 @@ export default {
   },
   methods: {
     loadProject: async function() {
+      await getDataTypeList()
+        .then(ret => this.dataTypeList = ret)
+
       await getProject(this.value.projectNo)
         .then(item => this.project = item)
     },

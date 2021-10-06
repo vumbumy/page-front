@@ -2,14 +2,14 @@
   <v-card height="100%" min-width="250">
     <v-card-title>
       {{label}} ({{taskArr.length}})<v-spacer/>
-      <v-icon v-if="$store.getters.isAdmin" @click="onAdd">mdi-plus</v-icon>
+      <v-icon v-if="project.writable" @click="onAdd">mdi-plus</v-icon>
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
-      <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="projectNo == null">
+      <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="project.projectNo == null">
         <v-ticket
           :value="element"
-          :types="types"
-          :project-no="projectNo"
+          :types="project.types"
+          :project-no="project.projectNo"
           @update="onUpdate"
           @close="onClose"
         />
@@ -23,6 +23,7 @@
   import draggable from 'vuedraggable'
   import VTicket from "@/components/Ticket";
   import {Ticket} from "@/api/ticket";
+  import {Project} from "@/api/project";
 
   export default {
     name: "VDraggableList",
@@ -30,7 +31,17 @@
       VTicket,
       draggable,
     },
-    props: ['value', 'label', 'types', 'projectNo'],
+    props: {
+      value: {
+        type: Array
+      },
+      label: {
+        type: String,
+      },
+      project: {
+        type: Object,
+      },
+    },
     data() {
       return {
         taskArr: this.value,

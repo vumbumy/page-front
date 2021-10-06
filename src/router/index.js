@@ -70,7 +70,7 @@ export default new Router({
     {
       path: '/projects',
       component: Project,
-      beforeEnter: requireAdmin(),
+      beforeEnter: requireAuth(),
     },
   ]
 })

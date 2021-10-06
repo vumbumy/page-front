@@ -66,4 +66,5 @@ export class Project {
   endedAt = null;
   description = null;
   types = null;
+  writable = false;
 }

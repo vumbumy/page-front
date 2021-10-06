@@ -12,8 +12,7 @@
       <v-col cols="12" sm="6" lg="3" v-for="(arr, status) in taskMap" :key="status">
         <v-draggable-list
           :label="status"
-          :projectNo="projectNo"
-          :types="projectInfo.types"
+          :project="projectInfo"
           :value="arr"
           @change="onChangeList"
           @update="onUpdate"
@@ -54,13 +53,13 @@ import VDraggableList from "@/components/DraggableList";
 
       await this.loadProjectList()
     },
-    computed: {
-      project() {
-        return this.projectList.find(
-          value => value.projectNo === this.projectNo
-        )
-      }
-    },
+    // computed: {
+    //   project() {
+    //     return this.projectList.find(
+    //       value => value.projectNo === this.projectNo
+    //     )
+    //   }
+    // },
     methods: {
       loadProjectList: async function () {
         this.loaded = false;
@@ -81,23 +80,25 @@ import VDraggableList from "@/components/DraggableList";
       },
       onChangeList: updateTicketStatus,
       onChangeProject: async function (projectNo) {
-        this.loaded = false;
+        if (projectNo && projectNo !== 0) {
+          this.loaded = false;
 
-        await getProject(projectNo).then(projectInfo =>
-          this.projectInfo = projectInfo
-        )
-
-        for (const status of this.statusList) {
-          this.taskMap[status] = []
-        }
-
-        await getTicketList(projectNo).then(arr =>
-          arr.forEach(
-            v => this.taskMap[v.status].push(v)
+          await getProject(projectNo).then(projectInfo =>
+            this.projectInfo = projectInfo
           )
-        )
 
-        this.loaded = true
+          for (const status of this.statusList) {
+            this.taskMap[status] = []
+          }
+
+          await getTicketList(projectNo).then(arr =>
+            arr.forEach(
+              v => this.taskMap[v.status].push(v)
+            )
+          )
+
+          this.loaded = true
+        }
       },
       onUpdate: async function (status) {
         // TODO: Add loaded each status

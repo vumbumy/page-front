@@ -13,19 +13,16 @@
         </v-btn>
       </v-fab-transition>
       <v-data-table
+        show-expand
         hide-default-footer
         :items="groupList"
-        :headers="columns">
-        <!--      <template v-slot:item.enabled="{ item }">-->
-        <!--        <v-switch @change="toggleEnable(item)"-->
-        <!--                  v-model="item.enabled"-->
-        <!--        ></v-switch>-->
-        <!--      </template>-->
-        <!--      <template v-slot:item.roles="{item}">-->
-        <!--        <v-icon v-if="isAdmin(item)">mdi-account-star</v-icon>-->
-        <!--        <v-icon v-else-if="isPartner(item)">mdi-account-settings</v-icon>-->
-        <!--        <v-icon v-else-if="isEnabled(item)">mdi-account</v-icon>-->
-        <!--      </template>-->
+        :headers="columns"
+      >
+        <template v-slot:expanded-item="{ headers, item }">
+          <td class="darken-4 grey pa-5" :colspan="headers.length">
+            <v-user-group :value="item" :user-list="userList"/>
+          </td>
+        </template>
       </v-data-table>
     </div>
   </v-container>
@@ -34,29 +31,42 @@
 <script>
 
 import {getUserGroupList} from "@/api/group";
+import VUserGroup from "@/components/Group";
+import {getSecuredUserList} from "@/api/user";
 
 export default {
+  components: {VUserGroup},
   data() {
     return {
       groupList: [],
+      userList: [],
+
       columns: [
-        { text: 'GROUP', value: 'groupName' },
-        { text: 'CREATED (UTC)', value: 'createdAt' },
-        { text: 'ACTION'},
+        { text: 'GROUP', value: 'groupName'},
+        { text: 'CREATED (UTC)', value: 'createdAt', align: "center"},
+        { text: '', value: 'data-table-expand' },
       ],
+      selected: null,
     }
   },
   created() {
     this.loadGroupList()
+    this.loadUserList()
   },
+
   methods: {
     loadGroupList: function () {
-      this.groupList = [];
-
       getUserGroupList().then(ret => {
         this.groupList = ret
       })
-    }
+    },
+    loadUserList: async function () {
+      await getSecuredUserList()
+        .then(ret => this.userList = ret)
+    },
+    onClickRow: function (row) {
+      this.selected = row.item
+    },
   }
 }
 </script>

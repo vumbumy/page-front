@@ -15,14 +15,14 @@ export function getProjectList(status = null) {
   });
 }
 
-export function getPublicProjectList() {
-  return new Promise(function(resolve) {
-    Api.get(path.api.projects)
-      .then(res => {
-        resolve(res.data)
-      })
-  });
-}
+// export function getPublicProjectList() {
+//   return new Promise(function(resolve) {
+//     Api.get(path.api.projects)
+//       .then(res => {
+//         resolve(res.data)
+//       })
+//   });
+// }
 
 export function createProject(project) {
   return new Promise(function(resolve) {

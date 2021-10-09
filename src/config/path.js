@@ -8,6 +8,7 @@ export default {
     groups: secured + admin + "/groups",
   },
   secured: {
+    users: secured + "/users",
     tickets: secured + "/tickets",
     tickets_status: secured + "/tickets/status",
     projects: secured + "/projects"

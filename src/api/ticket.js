@@ -11,11 +11,10 @@ export function getTicketStatusList(status = null) {
   });
 }
 
-export function getTicketList(projectNo = null, status = null) {
+export function getProjectTicketList(projectNo = null, status = null) {
   return new Promise(function(resolve) {
-    Api.get(path.secured.tickets, {
+    Api.get(`${path.secured.projects}/${projectNo}/tickets`, {
       params: {
-        projectNo: projectNo,
         status: status
       }
     })

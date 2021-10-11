@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {getTicketList, getTicketStatusList, updateTicketStatus} from "@/api/ticket";
+import {getProjectTicketList, getTicketStatusList, updateTicketStatus} from "@/api/ticket";
 import {getProject, getProjectList} from "@/api/project";
 import VDraggableList from "@/components/DraggableList";
 
@@ -91,7 +91,7 @@ import VDraggableList from "@/components/DraggableList";
             this.taskMap[status] = []
           }
 
-          await getTicketList(projectNo).then(arr =>
+          await getProjectTicketList(projectNo).then(arr =>
             arr.forEach(
               v => this.taskMap[v.status].push(v)
             )
@@ -104,7 +104,7 @@ import VDraggableList from "@/components/DraggableList";
         // TODO: Add loaded each status
         this.loaded = false;
 
-        await getTicketList(this.projectNo, status)
+        await getProjectTicketList(this.projectNo, status)
           .then(list => this.taskMap[status] = list)
 
         this.loaded = true

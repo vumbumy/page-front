@@ -49,6 +49,20 @@
             :label="type.typeName"
             v-model="itemValues[type.typeNo]"
           />
+          <v-date-selector
+            v-else-if="type.dataType === 'Date'"
+            :readonly="readonly"
+            :label="type.typeName"
+            v-model="itemValues[type.typeNo]"
+          />
+          <v-text-field
+            v-else
+            outlined
+            dense
+            :readonly="readonly"
+            :label="type.typeName"
+            v-model="itemValues[type.typeNo]"
+          />
         </div>
       </v-card-text>
 
@@ -67,15 +81,14 @@ import {
   createTicket,
   deleteTicket, getPublicTicket,
   getTicket,
-  updateTicket,
-  updateTicketPermissions,
-  updateTicketStatus
+  updateTicket
 } from "@/api/ticket";
 import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
+import VDateSelector from "@/components/DateSelector";
 
 export default {
   name: "VTicket",
-  components: {VReadWriteAccessSelect},
+  components: {VDateSelector, VReadWriteAccessSelect},
   props: {
     value: {
       type: Object

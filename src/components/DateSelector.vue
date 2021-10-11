@@ -45,6 +45,8 @@ export default {
     formatDate (date) {
       if (!date) return null
 
+      if (typeof date == "string") date = parseInt(date)
+
       return this.$moment(date).format('YYYY-MM-DD')
     }
   },

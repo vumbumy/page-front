@@ -87,7 +87,7 @@ import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
 import VDateSelector from "@/components/DateSelector";
 
 export default {
-  name: "VTicket",
+  name: "VTicketDialog",
   components: {VDateSelector, VReadWriteAccessSelect},
   props: {
     value: {

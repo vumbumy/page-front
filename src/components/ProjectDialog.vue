@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="600px">
-    <v-card v-if="project != null">
+    <v-card v-if="project">
       <v-card-title class="d-flex justify-end">
         <v-read-write-access-select v-model="project.permissions"/>
         <v-spacer/>
@@ -20,11 +20,8 @@
       <v-card-text>
         <v-form :readonly="readonly">
           <v-text-field class="text-h6" v-model="project.projectName"/>
-<!--          <div class="d-flex flex-row">-->
             <v-date-selector v-model="project.startedAt" label="Start Date" :readonly="readonly"/>
-<!--            <v-spacer/>-->
             <v-date-selector v-model="project.endedAt" label="End Date" :readonly="readonly"/>
-<!--          </div>-->
           <v-textarea outlined placeholder="Description" v-model="project.description"/>
           <v-data-table :headers="headers" hide-default-footer :items="project.types" disable-sort disable-filtering>
             <template v-slot:item.dataType="{ item }">
@@ -40,34 +37,6 @@
               <v-switch dense v-model="item.required"/>
             </template>
           </v-data-table>
-<!--          <v-row>-->
-<!--            <v-col cols="3">-->
-<!--              <div class="overline">type</div>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <div class="overline">name</div>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <div class="overline">default</div>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <div class="overline">required</div>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
-<!--          <v-row v-for="type in item.types" :key="type.typeNo">-->
-<!--            <v-col cols="3">-->
-<!--              <v-select dense outlined :items="['String', 'Number', 'Datetime']" v-model="type.dataType"/>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <v-text-field dense outlined v-model="type.typeName"/>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <v-text-field dense outlined v-model="type.defaultValue" placeholder="EMPTY"/>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <v-switch class="mt-auto" dense v-model="type.required"/>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
         </v-form>
       </v-card-text>
       <v-card-actions class="d-flex justify-end mx-2 mb-2">
@@ -82,16 +51,16 @@
 <script>
 import {deleteProject, getProject} from "@/api/project";
 import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
-import {getDataTypeList, Type} from "../api/types";
-import {createProject, updateProject} from "../api/project";
+import {getDataTypeList, Type} from "@/api/types";
+import {createProject, updateProject} from "@/api/project";
 import VDateSelector from "./DateSelector";
 
 export default {
-  name: "VProject",
+  name: "VProjectDialog",
   components: {VDateSelector, VReadWriteAccessSelect},
   props: {
     value: {
-      type: Object,
+      type: Number,
       default: null
     }
   },
@@ -140,9 +109,8 @@ export default {
     dialog() {
       if (this.dialog) {
         this.loadProject();
-      }
-      else {
-        this.project = null;
+      } else {
+        // this.project = null;
 
         this.$emit("input", null)
       }
@@ -153,8 +121,16 @@ export default {
       await getDataTypeList()
         .then(ret => this.dataTypeList = ret)
 
-      await getProject(this.value.projectNo)
-        .then(item => this.project = item)
+      if (this.value === 0) {
+        this.project = {
+          projectNo: 0
+        }
+
+        this.readonly = false
+      } else {
+        await getProject(this.value)
+          .then(item => this.project = item)
+      }
     },
     onClickSave: async function () {
       if (this.added) {

@@ -6,7 +6,7 @@
     </v-card-title>
     <div class="fill-height">
       <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="projectNo == null">
-        <v-ticket
+        <v-ticket-dialog
           :value="element"
           :types="types"
           :project-no="projectNo"
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-  import VTicket from "@/components/Ticket";
   import {Ticket} from "@/api/ticket";
+  import VTicketDialog from "@/components/TicketDialog";
 
   export default {
     name: "VTicketList",
     components: {
-      VTicket
+      VTicketDialog,
     },
     props: ['value', 'label', 'types', 'projectNo'],
     data() {

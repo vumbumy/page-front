@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column" v-if="group">
     <v-autocomplete
       dense
       filled
@@ -18,6 +18,9 @@
 
       :headers="columns"
       :items="group.userList">
+      <template v-slot:item.accessRight="{item}">
+        <v-select :items="['READ','WRITE']" v-model="item.accessRight" @change="onChange"/>
+      </template>
       <template v-slot:item.actions="{item}">
 <!--        <v-btn small text @click="onDeleteUser(item)">-->
 <!--          DELETE-->
@@ -25,13 +28,6 @@
         <v-icon @click="onDeleteUser(item)">
           mdi-delete
         </v-icon>
-      </template>
-      <template v-slot:no-data>
-        <v-btn
-          color="primary"
-        >
-          Reset
-        </v-btn>
       </template>
     </v-data-table>
     <div class="d-flex justify-end mt-3">
@@ -56,7 +52,7 @@
 import {getUserGroup, updateUserGroupUsers} from "@/api/group";
 
 export default {
-  name: "VUserGroup",
+  name: "VUserTable",
   props: {
     value: {
       type: Object,
@@ -72,7 +68,7 @@ export default {
       columns: [
         { text: 'NO', value: 'userNo'},
         { text: 'USER', value: 'email', align: "center"},
-        { text: 'PERMISSION', value: 'accessRight', align: "center"},
+        { text: 'PERMISSION', value: 'accessRight', align: "center", width: "150px"},
         { text: 'ACTION', value: 'actions', align: "center", sortable: false},
       ],
 
@@ -85,9 +81,13 @@ export default {
     this.loadGroup();
   },
   computed: {
+    userNoList() {
+      return this.group.userList.map(user => user.userNo)
+    },
     emailList() {
-      // TODO: not in group.userList
-      return this.userList.map(user => user.email)
+      return this.userList
+        .filter(user => !this.userNoList.includes(user.userNo))
+        .map(user => user.email)
     }
   },
   methods: {
@@ -95,11 +95,11 @@ export default {
       await getUserGroup(this.value.groupNo)
         .then(item => this.group = item)
     },
-    onCompleted(value) {
+    onCompleted(userEmail) {
       this.$refs.emailForm.reset();
 
-      this.selected = this.findSelected(value);
-      this.selected.accessRight = "READ"
+      this.selected = this.findSelected(userEmail);
+      this.selected.accessRight = 'READ'
 
       this.group.userList.push(this.selected)
 
@@ -121,6 +121,9 @@ export default {
       const idx = this.group.userList.findIndex(user => user.userNo === item.userNo)
       if (idx > -1) this.group.userList.splice(idx, 1)
 
+      this.updated = true;
+    },
+    onChange() {
       this.updated = true;
     }
   }

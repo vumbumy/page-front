@@ -21,7 +21,7 @@
 
 <script>
   import draggable from 'vuedraggable'
-  import VTicket from "@/components/Ticket";
+  import VTicket from "@/components/TicketDialog";
   import {Ticket} from "@/api/ticket";
   import {Project} from "@/api/project";
 

@@ -8,6 +8,8 @@
           bottom
           right
           fab
+
+          @click="onAddProject"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -17,18 +19,18 @@
         :items="projectList"
         :headers="columns"
         @click:row="onClickRow"/>
-      <v-project v-model="selected"/>
+      <v-project-dialog v-model="selected"/>
     </div>
   </v-container>
 </template>
 
 <script>
 
-import {getProject, getProjectList} from "@/api/project";
-import VProject from "@/components/Project";
+import {getProjectList} from "@/api/project";
+import VProjectDialog from "@/components/ProjectDialog";
 
 export default {
-  components: {VProject},
+  components: {VProjectDialog},
   data() {
     return {
       projectList: null,
@@ -53,8 +55,11 @@ export default {
       })
     },
     onClickRow: function (item) {
-      this.selected = item
+      this.selected = item.projectNo
     },
+    onAddProject() {
+      this.selected = 0;
+    }
   }
 }
 </script>

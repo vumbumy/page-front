@@ -8,6 +8,7 @@
           bottom
           right
           fab
+          @click="onAddGroup"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -15,15 +16,21 @@
       <v-data-table
         show-expand
         hide-default-footer
-        :items="groupList"
+
         :headers="columns"
+
+        :items="groupList"
+        item-key="groupNo"
+
+        @click:row="onClickRow"
       >
         <template v-slot:expanded-item="{ headers, item }">
           <td class="darken-4 grey pa-5" :colspan="headers.length">
-            <v-user-group :value="item" :user-list="userList"/>
+            <v-user-table :value="item" :user-list="userList"/>
           </td>
         </template>
       </v-data-table>
+      <v-group-dialog v-model="selected"/>
     </div>
   </v-container>
 </template>
@@ -31,11 +38,12 @@
 <script>
 
 import {getUserGroupList} from "@/api/group";
-import VUserGroup from "@/components/Group";
 import {getSecuredUserList} from "@/api/user";
+import VGroupDialog from "@/components/GroupDialog";
+import VUserTable from "@/components/UserTable";
 
 export default {
-  components: {VUserGroup},
+  components: {VUserTable, VGroupDialog},
   data() {
     return {
       groupList: [],
@@ -64,9 +72,12 @@ export default {
       await getSecuredUserList()
         .then(ret => this.userList = ret)
     },
-    onClickRow: function (row) {
-      this.selected = row.item
+    onClickRow: function (item) {
+      this.selected = item.groupNo
     },
+    onAddGroup() {
+      this.selected = 0;
+    }
   }
 }
 </script>

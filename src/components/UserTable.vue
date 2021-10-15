@@ -22,10 +22,7 @@
         <v-select :items="['READ','WRITE']" v-model="item.accessRight" @change="onChange"/>
       </template>
       <template v-slot:item.actions="{item}">
-<!--        <v-btn small text @click="onDeleteUser(item)">-->
-<!--          DELETE-->
-<!--        </v-btn>-->
-        <v-icon @click="onDeleteUser(item)">
+        <v-icon @click="onDelete(item)">
           mdi-delete
         </v-icon>
       </template>
@@ -73,7 +70,6 @@ export default {
       ],
 
       group: null,
-      selected: null,
       updated: false
     }
   },
@@ -98,10 +94,9 @@ export default {
     onCompleted(userEmail) {
       this.$refs.emailForm.reset();
 
-      this.selected = this.findSelected(userEmail);
-      this.selected.accessRight = 'READ'
-
-      this.group.userList.push(this.selected)
+      let selected = this.findSelected(userEmail);
+      selected.accessRight = 'READ'
+      this.group.userList.push(selected)
 
       this.updated = true
     },
@@ -117,7 +112,7 @@ export default {
 
       this.updated = false;
     },
-    onDeleteUser(item) {
+    onDelete(item) {
       const idx = this.group.userList.findIndex(user => user.userNo === item.userNo)
       if (idx > -1) this.group.userList.splice(idx, 1)
 

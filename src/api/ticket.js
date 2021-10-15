@@ -108,7 +108,8 @@ export class Ticket {
 
   writable = true;
 
-  // readable = false;
+  userPermissions = [];
+  groupPermissions = [];
 
   constructor(status) {
     this.status = status

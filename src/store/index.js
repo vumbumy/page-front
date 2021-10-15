@@ -26,9 +26,9 @@ export default new Vuex.Store({
     isAuthenticated: state => {
       return state.account !== null
     },
-    // currentUser: state => {
-    //   return state.account
-    // },
+    currentUserNo: state => {
+      return state.account.userNo
+    },
     isAdmin: (state) => {
       if (state.account == null) return false;
 

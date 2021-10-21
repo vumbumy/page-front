@@ -6,7 +6,7 @@
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title>
-          사용자 공유
+          사용자 그룹 공유
           <v-spacer/>
           <v-btn icon @click="onSave">
             <v-icon>mdi-content-save</v-icon>
@@ -21,11 +21,11 @@
             filled
             hide-selected
 
-            placeholder="Add User"
+            placeholder="Add Group"
 
-            ref="emailForm"
+            ref="groupNameForm"
 
-            :items="emailList"
+            :items="groupNameList"
             @change="onCompleted"/>
           <v-data-table
             hide-default-footer
@@ -36,9 +36,6 @@
               <v-select :items="['READ','WRITE']" v-model="item.accessRight" @change="onChange"/>
             </template>
             <template v-slot:item.actions="{item}">
-              <!--        <v-btn small text @click="onDeleteUser(item)">-->
-              <!--          DELETE-->
-              <!--        </v-btn>-->
               <v-icon @click="onDelete(item)">
                 mdi-delete
               </v-icon>
@@ -53,11 +50,10 @@
 <script>
 
 import {GROUP, PRIVATE, PUBLIC} from "@/api/common";
-import {updateUserGroupUsers} from "@/api/group";
-import {getSecuredUserList} from "@/api/user";
+import {getSecuredUserGroupList} from "@/api/group";
 
 export default {
-  name: "VUserPermissionDialog",
+  name: "VGroupPermissionDialog",
   props: {
     value: {
       type: Array
@@ -67,18 +63,18 @@ export default {
     return {
       dialog: false,
       columns: [
-        { text: 'NO', value: 'userNo'},
-        { text: 'USER', value: 'email', align: "center"},
+        { text: 'NO', value: 'groupNo'},
+        { text: 'GROUP', value: 'groupName', align: "center"},
         { text: 'PERMISSION', value: 'accessRight', align: "center", width: "150px"},
         { text: 'ACTION', value: 'actions', align: "center", sortable: false},
       ],
       permissions: null,
-      userList: [],
+      groupList: [],
       updated: false
     }
   },
   created() {
-    this.loadUserList();
+    this.loadGroupList();
   },
   computed: {
     isPrivate() {
@@ -104,13 +100,13 @@ export default {
       }
       return GROUP.ICON
     },
-    userNoList() {
-      return this.permissions.map(user => user.userNo)
+    groupNoList() {
+      return this.permissions.map(group => group.groupNo)
     },
-    emailList() {
-      return this.userList
-        .filter(user => !this.userNoList.includes(user.userNo))
-        .map(user => user.email)
+    groupNameList() {
+      return this.groupList
+        .filter(group => !this.groupNoList.includes(group.groupName))
+        .map(group => group.groupName)
     }
   },
   watch: {
@@ -127,21 +123,21 @@ export default {
     initialize() {
       this.permissions = Object.assign([], this.value)
     },
-    loadUserList: async function () {
-      await getSecuredUserList()
-        .then(ret => this.userList = ret)
+    loadGroupList: async function () {
+      await getSecuredUserGroupList()
+        .then(ret => this.groupList = ret)
     },
-    onCompleted(userEmail) {
-      this.$refs.emailForm.reset();
+    onCompleted(groupName) {
+      this.$refs.groupNameForm.reset();
 
-      let selected = this.findSelected(userEmail);
+      let selected = this.findSelected(groupName);
       selected.accessRight = 'READ'
       this.permissions.push(selected)
 
       this.updated = true
     },
-    findSelected(email) {
-      return this.userList.find(user => user.email === email)
+    findSelected(groupName) {
+      return this.groupList.find(group => group.groupName === groupName)
     },
     onSave: async function() {
       console.log("SAVE")
@@ -153,7 +149,7 @@ export default {
       this.updated = true;
     },
     onDelete(item) {
-      const idx = this.permissions.findIndex(user => user.userNo === item.userNo)
+      const idx = this.permissions.findIndex(group => group.groupName === item.groupNo)
       if (idx > -1) this.permissions.splice(idx, 1)
 
       this.updated = true;

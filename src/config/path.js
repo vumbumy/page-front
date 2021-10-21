@@ -9,6 +9,7 @@ export default {
   },
   secured: {
     users: secured + "/users",
+    groups: secured + "/groups",
     tickets: secured + "/tickets",
     tickets_status: secured + "/tickets/status",
     projects: secured + "/projects"

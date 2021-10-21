@@ -12,8 +12,11 @@
     </template>
     <v-card v-if="item">
       <v-card-actions class="d-flex justify-end">
-<!--        <v-read-write-access-select v-if="!shared" v-model="item.permissions" @update="onUpdatePermissions"/>-->
-        <v-user-permission-dialog v-model="item.userPermissions"/>
+        <div class="d-flex flex-row">
+          <v-user-permission-dialog v-model="item.userPermissions"/>
+          <v-divider class="mx-2" vertical/>
+          <v-group-permission-dialog v-model="item.groupPermissions"/>
+        </div>
         <v-spacer/>
         <v-btn icon v-if="item.writable && !added" @click="onDelete">
           <v-icon>mdi-delete</v-icon>
@@ -86,10 +89,11 @@ import {
 } from "@/api/ticket";
 import VDateSelector from "@/components/DateSelector";
 import VUserPermissionDialog from "@/components/UserPermissionDialog";
+import VGroupPermissionDialog from "@/components/GroupPermissionDialog";
 
 export default {
   name: "VTicketDialog",
-  components: {VUserPermissionDialog, VDateSelector},
+  components: {VGroupPermissionDialog, VUserPermissionDialog, VDateSelector},
   props: {
     value: {
       type: Object

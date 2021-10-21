@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-access-select access="READ" @update="onUpdate" v-model="readPermissions"/>
-    /
+    <v-divider vertical/>
     <v-access-select access="WRITE" @update="onUpdate" v-model="writePermissions"/>
   </div>
 </template>

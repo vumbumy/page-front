@@ -11,6 +11,15 @@ export function getUserGroupList () {
   });
 }
 
+export function getSecuredUserGroupList () {
+  return new Promise(function(resolve) {
+    Api.get(path.secured.groups)
+      .then(res => {
+        resolve(res.data)
+      })
+  });
+}
+
 export function getUserGroup(groupNo) {
   return new Promise(function(resolve) {
     Api.get(`${path.admin.groups}/${groupNo}`)

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div class="pa-5">
     <v-data-table
       hide-default-footer
       :items="userList"
@@ -18,7 +18,7 @@
 <!--        <v-icon v-if="!item.enabled">mdi-account-alert</v-icon>-->
       </template>
     </v-data-table>
-  </v-container>
+  </div>
 </template>
 
 <script>

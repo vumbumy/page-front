@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <div class="d-flex flex-column">
+<!--  <v-container>-->
+    <div class="d-flex flex-column pa-5">
       <v-fab-transition>
         <v-btn
           class="mb-10"
@@ -32,7 +32,7 @@
       </v-data-table>
       <v-group-dialog v-model="selected"/>
     </div>
-  </v-container>
+<!--  </v-container>-->
 </template>
 
 <script>

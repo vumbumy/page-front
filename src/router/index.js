@@ -10,6 +10,8 @@ import Public from "@/pages/Public";
 import Group from "@/pages/Group";
 import Project from "@/pages/Project";
 import Board from "@/pages/Board";
+import KPI from "@/pages/KPI";
+import Schedule from "@/pages/Schedule";
 
 Vue.use(Router);
 
@@ -70,6 +72,16 @@ export default new Router({
     {
       path: '/projects',
       component: Project,
+      beforeEnter: requireAuth(),
+    },
+    {
+      path: '/kpi',
+      component: KPI,
+      beforeEnter: requireAuth(),
+    },
+    {
+      path: '/schedules',
+      component: Schedule,
       beforeEnter: requireAuth(),
     },
   ]

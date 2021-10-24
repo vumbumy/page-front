@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loaded" class="d-flex flex-column fill-height pa-7">
+  <div v-if="loaded" class="d-flex flex-column fill-height pa-5">
     <div class="d-flex flex-row">
       <v-select outlined :items="projectList" item-text="projectName" item-value="projectNo" v-model="projectNo" @change="onChangeProject"/>
 <!--      <v-spacer/>-->

@@ -12,7 +12,9 @@ export default {
     groups: secured + "/groups",
     tickets: secured + "/tickets",
     tickets_status: secured + "/tickets/status",
-    projects: secured + "/projects"
+    projects: secured + "/projects",
+    events: secured + "/events",
+    schedules: secured + "/schedules"
   },
   api: {
     types: "/types",

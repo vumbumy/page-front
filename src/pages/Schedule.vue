@@ -18,7 +18,7 @@
       hide-default-footer
 
       :headers="columns"
-      :items="kpiList"
+      :items="scheduleList"
     >
       <template v-slot:expanded-item="{ headers, item }">
         <td class="darken-4 grey pa-5" :colspan="headers.length">
@@ -32,6 +32,7 @@
 
 <script>
 import VJsoneditor from 'v-jsoneditor/src/index'
+import {getScheduleList} from "@/api/event";
 
 export default {
   name: "Schedule",
@@ -41,31 +42,31 @@ export default {
   data: () => {
     return {
       columns: [
-        { text: 'NAME', value: 'name'},
-        { text: 'EVENT', value: 'event' },
+        { text: 'NAME', value: 'contentName'},
+        { text: 'ACTION', value: 'action' },
+        { text: 'CREATED', value: 'createdAt', align: "center"},
         { text: '', value: 'data-table-expand'},
       ],
-      kpiList: [
-        {
-          name: "NOTI_30_DAYS",
-          event: "NOTIFICATION",
-          json: {project: 1, conditions: [{type: 1, value: 30, op: 'ge'}],  target: {type: 'MANAGER'}}
-        },
-        {
-          name: "NOTI_STATUS_REVIEW",
-          event: "NOTIFICATION",
-          json: {project: 4, conditions: [{type: 2, value: 'REVIEW', op: 'eq'}],  target: {type: 'REF', value: [3]}}
-        },
-        {
-          name: "HIDE_LE_210930",
-          event: "ACTION",
-          json: {project: 3, conditions: [{type: 3, value: '2021-09-30', op: 'le'}],  event: {type: 'HIDE'}}
-        },
-      ]
+      scheduleList: []
     }
   },
+  created() {
+    this.loadSchedules();
+  },
   methods: {
+    loadSchedules: async function() {
+      this.scheduleList = [];
 
+      await getScheduleList()
+        .then(retArr => retArr.forEach(
+          e => this.scheduleList.push(
+            {
+              ...e,
+              json: JSON.parse(e.paramJson)
+            }
+          )
+        ))
+    },
     description(item) {
       return `- 매일 00시\n- ${item.json.project}번 프로젝트\n ${item.json.condition.type}번 컬럼의 값이 ${item.json.condition}일 경우 ${item.json.target}에게 알림을 보냄`
     }

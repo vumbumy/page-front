@@ -19,7 +19,7 @@
         :items="projectList"
         :headers="columns"
         @click:row="onClickRow"/>
-      <v-project-dialog v-model="selected"/>
+      <v-project-dialog v-model="selected" @update="loadProjectList"/>
     </div>
 <!--  </v-container>-->
 </template>
@@ -38,7 +38,7 @@ export default {
         { text: 'PROJECT', value: 'projectName' },
         { text: 'MANAGER', value: 'managerName'},
         { text: 'TICKETS', value: 'ticketCount'},
-        { text: 'CREATED (UTC)', value: 'createdAt' },
+        { text: 'CREATED', value: 'createdAt', align: "center"},
       ],
       selected: null,
     }

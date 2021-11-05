@@ -61,10 +61,11 @@ export function deleteProject(projectNo) {
 }
 
 export class Project {
+  projectNo = 0;
   projectName = null;
   startedAt = null;
   endedAt = null;
   description = null;
-  types = null;
-  writable = false;
+  columns = [];
+  writable = true;
 }

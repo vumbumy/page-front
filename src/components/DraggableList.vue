@@ -8,7 +8,7 @@
       <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="project.projectNo == null">
         <v-ticket
           :value="element"
-          :types="project.types"
+          :types="project.columns"
           :project-no="project.projectNo"
           @update="onUpdate"
           @close="onClose"

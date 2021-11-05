@@ -23,12 +23,12 @@
             <v-date-selector v-model="project.startedAt" label="Start Date" :readonly="readonly"/>
             <v-date-selector v-model="project.endedAt" label="End Date" :readonly="readonly"/>
           <v-textarea outlined placeholder="Description" v-model="project.description"/>
-          <v-data-table :headers="headers" hide-default-footer :items="project.types" disable-sort disable-filtering>
-            <template v-slot:item.dataType="{ item }">
-              <v-select class="caption" dense :items="dataTypeList" v-model="item.dataType"/>
+          <v-data-table :headers="headers" hide-default-footer :items="project.columns" disable-sort disable-filtering>
+            <template v-slot:item.columnType="{ item }">
+              <v-select class="caption" dense :items="columnTypeList" v-model="item.columnType"/>
             </template>
-            <template v-slot:item.typeName="{ item }">
-              <v-text-field class="caption" dense v-model="item.typeName"/>
+            <template v-slot:item.columnName="{ item }">
+              <v-text-field class="caption" dense v-model="item.columnName"/>
             </template>
             <template v-slot:item.defaultValue="{ item }">
               <v-text-field class="caption" dense v-model="item.defaultValue"/>
@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import {deleteProject, getProject} from "@/api/project";
+import {deleteProject, getProject, Project} from "@/api/project";
 import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
-import {getDataTypeList, Type} from "@/api/types";
+import {getDataTypeList, DataColumn} from "@/api/types";
 import {createProject, updateProject} from "@/api/project";
 import VDateSelector from "./DateSelector";
 
@@ -73,13 +73,13 @@ export default {
         {
           text: 'TYPE',
           // align: 'center',
-          value: 'dataType',
+          value: 'columnType',
           width: "10%"
         },
         {
           text: 'NAME',
           // align: 'center',
-          value: 'typeName'
+          value: 'columnName'
         },
         { text: 'DEFAULT',
           // align: 'center',
@@ -94,7 +94,7 @@ export default {
       ],
       project: null,
 
-      dataTypeList: []
+      columnTypeList: []
     }
   },
   computed: {
@@ -119,12 +119,10 @@ export default {
   methods: {
     loadProject: async function() {
       await getDataTypeList()
-        .then(ret => this.dataTypeList = ret)
+        .then(ret => this.columnTypeList = ret)
 
       if (this.value === 0) {
-        this.project = {
-          projectNo: 0
-        }
+        this.project = new Project();
 
         this.readonly = false
       } else {
@@ -146,7 +144,7 @@ export default {
       this.$emit("update")
     },
     onAddType: function () {
-      this.project.types.push(new Type())
+      this.project.columns.push(new DataColumn())
     },
     onDelete: function () {
       deleteProject(this.project.projectNo)

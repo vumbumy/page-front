@@ -51,7 +51,7 @@ export default {
 
       columns: [
         { text: 'GROUP', value: 'groupName'},
-        { text: 'CREATED (UTC)', value: 'createdAt', align: "center"},
+        { text: 'CREATED', value: 'createdAt', align: "center"},
         { text: '', value: 'data-table-expand' },
       ],
       selected: null,

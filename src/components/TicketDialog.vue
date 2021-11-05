@@ -36,36 +36,36 @@
       </v-card-title>
 
       <v-card-text>
-        <div v-for="type in types" :key="type.typeNo">
+        <div v-for="type in types" :key="type.columnNo">
           <v-textarea
-            v-if="type.dataType === 'TextArea'"
+            v-if="type.columnType === 'TextArea'"
             outlined
             dense
             :readonly="readonly"
-            :label="type.typeName"
-            v-model="itemValues[type.typeNo]"
+            :label="type.columnName"
+            v-model="itemValues[type.columnNo]"
           />
           <v-text-field
-            v-else-if="type.dataType === 'Text' || type.dataType === 'URL'"
+            v-else-if="type.columnType === 'Text' || type.columnType === 'URL'"
             outlined
             dense
             :readonly="readonly"
-            :label="type.typeName"
-            v-model="itemValues[type.typeNo]"
+            :label="type.columnName"
+            v-model="itemValues[type.columnNo]"
           />
           <v-date-selector
-            v-else-if="type.dataType === 'Date'"
+            v-else-if="type.columnType === 'Date'"
             :readonly="readonly"
-            :label="type.typeName"
-            v-model="itemValues[type.typeNo]"
+            :label="type.columnName"
+            v-model="itemValues[type.columnNo]"
           />
           <v-text-field
             v-else
             outlined
             dense
             :readonly="readonly"
-            :label="type.typeName"
-            v-model="itemValues[type.typeNo]"
+            :label="type.columnName"
+            v-model="itemValues[type.columnNo]"
           />
         </div>
       </v-card-text>
@@ -151,7 +151,7 @@ export default {
 
       if (loadedItem != null) {
         await loadedItem.values.forEach(
-          ({typeNo, dataValue}) => this.itemValues[typeNo] = dataValue
+          ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
         )
       }
 

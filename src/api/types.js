@@ -19,12 +19,16 @@ export function getDataTypeList() {
   });
 }
 
-export class Type {
-  dataType = null;
+export class DataColumn {
+  columnNo = null;
 
-  typeName = null;
+  columnName = null;
+
+  columnType = null;
 
   defaultValue = null;
 
   required = false;
+
+  deleted = false;
 }

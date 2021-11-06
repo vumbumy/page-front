@@ -43,7 +43,7 @@ export default {
     return {
       columns: [
         { text: 'NAME', value: 'contentName'},
-        { text: 'ACTION', value: 'action' },
+        { text: 'TYPE', value: 'eventType' },
         { text: 'CREATED', value: 'createdAt', align: "center"},
         { text: '', value: 'data-table-expand'},
       ],

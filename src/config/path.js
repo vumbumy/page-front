@@ -10,22 +10,22 @@ export default {
   secured: {
     users: secured + "/users",
     groups: secured + "/groups",
-    tickets: secured + "/tickets",
-    tickets_status: secured + "/tickets/status",
+    records: secured + "/records",
+    records_status: secured + "/records/status",
     projects: secured + "/projects",
     events: secured + "/events",
     schedules: secured + "/schedules"
   },
   api: {
     types: "/types",
-    types_data_types: "/types/data-types",
-    tickets: "/tickets",
-    tickets_status: "/tickets/status"
+    types_data_types: "/types/data-columns",
+    records: "/records",
+    records_status: "/records/status"
   },
   auth: {
     sign: {
-      up: '/sign/up',
-      in: '/sign/in'
+      up: '/signup',
+      in: '/signin'
     },
     me: secured + "/me"
   }

@@ -5,7 +5,7 @@
       <v-icon v-if="$store.getters.isAdmin" @click="onAdd">mdi-plus</v-icon>
     </v-card-title>
     <div class="fill-height">
-      <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="projectNo == null">
+      <v-list-item v-for="element in taskArr" :key="element.recordCode" :disabled="projectNo == null">
         <v-ticket-dialog
           :value="element"
           :types="types"
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import {Ticket} from "@/api/ticket";
+import {Record, Ticket} from "@/api/ticket";
   import VTicketDialog from "@/components/TicketDialog";
 
   export default {
@@ -44,7 +44,7 @@
     methods: {
       onAdd: function () {
         this.taskArr.push(
-          new Ticket(this.status)
+          new Record(this.status)
         )
 
         this.added = true;

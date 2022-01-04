@@ -5,7 +5,7 @@
       <v-icon v-if="project.writable" @click="onAdd">mdi-plus</v-icon>
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
-      <v-list-item v-for="element in taskArr" :key="element.ticketNo" :disabled="project.projectNo == null">
+      <v-list-item v-for="element in taskArr" :key="element.recordNo" :disabled="project.projectNo == null">
         <v-ticket
           :value="element"
           :types="project.columns"
@@ -22,8 +22,7 @@
 <script>
   import draggable from 'vuedraggable'
   import VTicket from "@/components/TicketDialog";
-  import {Ticket} from "@/api/ticket";
-  import {Project} from "@/api/project";
+  import {Record} from "@/api/ticket";
 
   export default {
     name: "VDraggableList",
@@ -57,7 +56,7 @@
     methods: {
       onAdd: function () {
         this.taskArr.push(
-          new Ticket(this.status)
+          new Record(this.status)
         )
 
         this.added = true;

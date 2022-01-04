@@ -4,7 +4,7 @@ import path from "@/config/path";
 
 export function getTicketStatusList(status = null) {
   return new Promise(function(resolve) {
-    Api.get(path.api.tickets_status)
+    Api.get(path.api.records_status)
       .then(res => {
         resolve(res.data)
       })
@@ -13,7 +13,7 @@ export function getTicketStatusList(status = null) {
 
 export function getProjectTicketList(projectNo = null, status = null) {
   return new Promise(function(resolve) {
-    Api.get(`${path.secured.projects}/${projectNo}/tickets`, {
+    Api.get(`${path.secured.projects}/${projectNo}/records`, {
       params: {
         status: status
       }
@@ -26,81 +26,83 @@ export function getProjectTicketList(projectNo = null, status = null) {
 
 export function getPublicTicketList() {
   return new Promise(function(resolve) {
-    Api.get(path.api.tickets)
+    Api.get(path.api.records)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function getPublicTicket(ticketNo) {
+export function getPublicTicket(recordCode) {
   return new Promise(function(resolve) {
-    Api.get(`${path.api.tickets}/${ticketNo}`)
+    Api.get(`${path.api.records}/${recordCode}`)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function createTicket(ticket) {
+export function createTicket(record) {
   return new Promise(function(resolve) {
-    Api.post(path.secured.tickets, ticket)
+    Api.post(path.secured.records, record)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function getTicket(ticketNo) {
+export function getTicket(recordNo) {
   return new Promise(function(resolve) {
-    Api.get(`${path.secured.tickets}/${ticketNo}`)
+    Api.get(`${path.secured.records}/${recordNo}`)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function updateTicketStatus(ticket) {
+export function updateTicketStatus(record) {
   return new Promise(function(resolve) {
-    Api.put(path.secured.tickets_status, ticket)
+    Api.put(path.secured.records_status, record)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function updateTicketPermissions(ticketNo, permissions) {
+export function updateTicketPermissions(recordNo, permissions) {
   return new Promise(function(resolve) {
-    Api.put(`${path.secured.tickets}/${ticketNo}/permissions`, permissions)
+    Api.put(`${path.secured.records}/${recordNo}/permissions`, permissions)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function updateTicket(ticket) {
+export function updateTicket(record) {
   return new Promise(function(resolve) {
-    Api.put(path.secured.tickets, ticket)
+    Api.put(path.secured.records, record)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function deleteTicket(ticketNo) {
+export function deleteTicket(recordNo) {
   return new Promise(function(resolve) {
-    Api.delete(`${path.secured.tickets}/${ticketNo}`)
+    Api.delete(`${path.secured.records}/${recordNo}`)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export class Ticket {
+export class Record {
 
-  ticketNo = 0;
+  recordNo = 0;
 
-  ticketName = null;
+  recordName = null;
+
+  recordCode = null;
 
   values = null;
 

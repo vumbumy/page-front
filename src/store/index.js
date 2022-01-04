@@ -37,7 +37,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setToken(state, { data }) {
-      Api.defaults.headers["X-Auth-Token"] = data
+      Api.defaults.headers["Authorization"] = `Bearer ${data}`
 
       // 토큰을 로컬 스토리지에 저장
       localStorage.accessToken = data

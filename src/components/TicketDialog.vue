@@ -5,14 +5,14 @@
         <v-list-item-title>
           <div class="d-flex flex-column">
             <div class="font-weight-bold" :class="{'font-italic': isEmptyTitle}" v-text="title"/>
-            <div v-if="!added" class="ml-auto overline" v-text="'TKT-' + value.ticketNo"/>
+            <div v-if="!added" class="ml-auto overline" v-text="'CODE-' + value.recordCode"/>
           </div>
         </v-list-item-title>
       </v-list-item-content>
     </template>
     <v-card v-if="item">
       <v-card-actions class="d-flex justify-end">
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row" v-if="!shared">
           <v-user-permission-dialog v-model="item.userPermissions"/>
           <v-divider class="mx-2" vertical/>
           <v-group-permission-dialog v-model="item.groupPermissions"/>
@@ -32,7 +32,7 @@
         </v-btn>
       </v-card-actions>
       <v-card-title>
-        <v-text-field :readonly="readonly" outlined label="Title" v-model="item.ticketName"/>
+        <v-text-field :readonly="readonly" outlined label="Title" v-model="item.recordName"/>
       </v-card-title>
 
       <v-card-text>
@@ -107,8 +107,8 @@ export default {
   },
   data() {
     return {
-      dialog: this.value.ticketNo === 0,
-      readonly: this.value.ticketNo !== 0,
+      dialog: this.value.recordNo === 0,
+      readonly: this.value.recordNo !== 0,
 
       item: this.value,
       itemValues: {},
@@ -116,13 +116,13 @@ export default {
   },
   computed: {
     isEmptyTitle() {
-      return this.value.ticketName == null || this.value.ticketName === "";
+      return this.value.recordName == null || this.value.recordName === "";
     },
     title() {
-      return this.isEmptyTitle ? "EMPTY" : this.value.ticketName;
+      return this.isEmptyTitle ? "EMPTY" : this.value.recordName;
     },
     added() {
-      return this.item.ticketNo === 0;
+      return this.item.recordNo === 0;
     },
     shared() {
       return this.projectNo === 0;
@@ -142,15 +142,13 @@ export default {
       let loadedItem = null;
 
       if (this.shared) {
-        await getPublicTicket(this.value.ticketNo)
-          .then(value => loadedItem = value)
+        loadedItem = await getPublicTicket(this.value.recordCode)
       } else if (!this.added) {
-        await getTicket(this.value.ticketNo)
-          .then(value => loadedItem = value)
+        loadedItem = await getTicket(this.value.recordNo)
       }
 
       if (loadedItem != null) {
-        await loadedItem.values.forEach(
+        loadedItem.values.forEach(
           ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
         )
       }
@@ -181,7 +179,7 @@ export default {
       this.item.permissions = permissions
     },
     onDelete: function () {
-      deleteTicket(this.item.ticketNo)
+      deleteTicket(this.item.recordNo)
         .then(() => {
           this.readonly = true
 

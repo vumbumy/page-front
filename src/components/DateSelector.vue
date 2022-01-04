@@ -30,15 +30,19 @@
 export default {
   name: "VDateSelector",
   props: ['label', 'value', 'readonly'],
-  data: vm => ({
-    date: vm.formatDate(vm.value),
-    menu: false,
+  data: () => ({
+    date: '',
+    menu: false
   }),
 
   watch: {
     date (val) {
       this.$emit('input', this.$moment(val).valueOf())
     },
+
+    value() {
+      this.date = this.formatDate(this.value)
+    }
   },
 
   methods: {

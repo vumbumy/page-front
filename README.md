@@ -1,4 +1,4 @@
-# [Page (Front)](http://vumy.gq)
+# [Page (Front)](http://vumy.kr)
 
 ## Project setup
 ```

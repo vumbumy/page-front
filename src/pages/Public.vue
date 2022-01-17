@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-row fill-height col-12 flex-wrap" v-if="loaded">
-    <div class="col-xs-12 col-sm-6 col-md-3" v-for="(arr, status) in taskMap" :key="status">
+    <div class="col-xs-12 col-md-4" v-for="(arr, status) in taskMap" :key="status">
       <v-ticket-list
         :label="status"
         :project-no="0"
@@ -27,20 +27,16 @@
     data() {
       return {
         // projectArr: [],
-        projectNo: null,
+        // projectNo: null,
         typeList: [],
 
-        statusList: {},
+        statusList: ["TODO", "PROGRESS", "DONE"],
         taskMap: {},
 
         loaded: false
       }
     },
     created: async function() {
-      await getTicketStatusList().then(statusList =>
-        this.statusList = statusList
-      )
-
       await this.loadTicketList()
     },
     methods: {
@@ -55,13 +51,9 @@
           value => this.typeList = value
         )
 
-        await getPublicTicketList().then(
-          arr => {
-            arr.forEach(
-              v => this.taskMap[v.status]
-                .push(v)
-            )
-          }
+        await getPublicTicketList().then(arr => arr
+            .filter(v => this.statusList.includes(v.status))
+            .forEach(v => this.taskMap[v.status].push(v))
         )
 
         this.loaded = true

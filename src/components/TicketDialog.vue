@@ -5,67 +5,39 @@
         <v-list-item-title>
           <div class="d-flex flex-column">
             <div class="font-weight-bold" :class="{'font-italic': isEmptyTitle}" v-text="title"/>
-            <div v-if="!added" class="ml-auto overline" v-text="'CODE-' + value.recordCode"/>
+            <div class="ml-auto overline" v-text="'CODE-' + value.recordCode"/>
           </div>
         </v-list-item-title>
       </v-list-item-content>
     </template>
     <v-card v-if="item">
-      <v-card-actions class="d-flex justify-end">
-        <div class="d-flex flex-row" v-if="!shared">
-          <v-user-permission-dialog v-model="item.userPermissions"/>
-          <v-divider class="mx-2" vertical/>
-          <v-group-permission-dialog v-model="item.groupPermissions"/>
-        </div>
-        <v-spacer/>
-        <v-btn icon v-if="item.writable && !added" @click="onDelete">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-btn icon v-if="item.writable && readonly" @click="readonly = false">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-        <v-btn icon v-if="item.writable && !readonly" @click="onClickSave">
-          <v-icon>mdi-content-save</v-icon>
-        </v-btn>
+      <v-card-actions class="d-flex justify-space-between">
+        <div class="overline" v-text="'CODE-' + value.recordCode"/>
         <v-btn icon @click="onClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-card-title>
-        <v-text-field :readonly="readonly" outlined label="Title" v-model="item.recordName"/>
-      </v-card-title>
-
+      <v-card-title class="mb-3"><h2 v-text="item.recordName"/></v-card-title>
+      <v-card-subtitle><h3 class="subtitle-1" v-text="item.projectName"/></v-card-subtitle>
       <v-card-text>
-        <div v-for="type in types" :key="type.columnNo">
+        <div v-for="column in itemColumns" :key="column.columnNo" >
           <v-textarea
-            v-if="type.columnType === 'TextArea'"
-            outlined
-            dense
-            :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
-          />
-          <v-text-field
-            v-else-if="type.columnType === 'Text' || type.columnType === 'URL'"
-            outlined
-            dense
-            :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
+            v-if="column.columnType === 'TextArea'"
+            readonly
+            :label="column.columnName"
+            v-model="itemValues[column.columnNo]"
           />
           <v-date-selector
-            v-else-if="type.columnType === 'Date'"
-            :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
+            v-else-if="column.columnType === 'Date'"
+            readonly
+            :label="column.columnName"
+            v-model="itemValues[column.columnNo]"
           />
           <v-text-field
             v-else
-            outlined
-            dense
-            :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
+            readonly
+            :label="column.columnName"
+            v-model="itemValues[column.columnNo]"
           />
         </div>
       </v-card-text>
@@ -81,19 +53,12 @@
 </template>
 
 <script>
-import {
-  createTicket,
-  deleteTicket, getPublicTicket,
-  getTicket,
-  updateTicket
-} from "@/api/ticket";
+import {getPublicTicket} from "@/api/ticket";
 import VDateSelector from "@/components/DateSelector";
-import VUserPermissionDialog from "@/components/UserPermissionDialog";
-import VGroupPermissionDialog from "@/components/GroupPermissionDialog";
 
 export default {
   name: "VTicketDialog",
-  components: {VGroupPermissionDialog, VUserPermissionDialog, VDateSelector},
+  components: {VDateSelector},
   props: {
     value: {
       type: Object
@@ -101,16 +66,17 @@ export default {
     types: {
       type: Array
     },
-    projectNo: {
-      type: Number
+    projectName: {
+      type: String
     }
   },
   data() {
     return {
       dialog: this.value.recordNo === 0,
-      readonly: this.value.recordNo !== 0,
+      // readonly: this.value.recordNo !== 0,
 
       item: this.value,
+      itemColumns: [],
       itemValues: {},
     }
   },
@@ -120,12 +86,6 @@ export default {
     },
     title() {
       return this.isEmptyTitle ? "EMPTY" : this.value.recordName;
-    },
-    added() {
-      return this.item.recordNo === 0;
-    },
-    shared() {
-      return this.projectNo === 0;
     }
   },
   watch: {
@@ -141,50 +101,18 @@ export default {
     loadTicket: async function() {
       let loadedItem = null;
 
-      if (this.shared) {
-        loadedItem = await getPublicTicket(this.value.recordCode)
-      } else if (!this.added) {
-        loadedItem = await getTicket(this.value.recordNo)
-      }
+      loadedItem = await getPublicTicket(this.value.recordCode)
 
       if (loadedItem != null) {
         loadedItem.values.forEach(
           ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
         )
+
+        this.itemColumns = this.types
+          .filter(column => column.columnNo in this.itemValues)
       }
 
       this.item = loadedItem;
-    },
-    onClickSave: async function () {
-      this.item.projectNo = this.projectNo;
-      this.item.values = this.itemValues
-
-      if (!this.added) {
-        updateTicket(this.item)
-          .then(() => {
-            this.readonly = true
-
-            this.$emit("update")
-          })
-      } else {
-        createTicket(this.item)
-          .then(() => {
-            this.readonly = true
-
-            this.$emit("update")
-          })
-      }
-    },
-    onUpdatePermissions: function (permissions) {
-      this.item.permissions = permissions
-    },
-    onDelete: function () {
-      deleteTicket(this.item.recordNo)
-        .then(() => {
-          this.readonly = true
-
-          this.$emit("update")
-        })
     },
     onClose: function () {
       this.readonly = true

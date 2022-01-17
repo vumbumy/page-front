@@ -100,6 +100,8 @@ export class Record {
 
   recordNo = 0;
 
+  projectName = null;
+
   recordName = null;
 
   recordCode = null;

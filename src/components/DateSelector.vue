@@ -4,15 +4,12 @@
     :close-on-content-click="false"
     transition="scale-transition"
     offset-y
-    max-width="290px"
-    min-width="auto"
     :disabled="readonly"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         v-model="date"
         :label="label"
-        prepend-icon="mdi-calendar"
         readonly
         v-bind="attrs"
         v-on="on"
@@ -29,20 +26,28 @@
 <script>
 export default {
   name: "VDateSelector",
-  props: ['label', 'value', 'readonly'],
+  props: {
+    label: String,
+    value: [Number, String],
+    readonly: Boolean
+  },
   data: () => ({
     date: '',
     menu: false
   }),
+
+  mounted() {
+    this.date = this.formatDate(this.value)
+  },
 
   watch: {
     date (val) {
       this.$emit('input', this.$moment(val).valueOf())
     },
 
-    value() {
-      this.date = this.formatDate(this.value)
-    }
+    // value() {
+    //   this.date = this.formatDate(this.value)
+    // }
   },
 
   methods: {

@@ -40,16 +40,16 @@ import VDraggableList from "@/components/DraggableList";
         projectList: [],
         projectNo: null,
         projectInfo: null,
-        statusList: [],
+        statusList: ["TODO", "PROGRESS", "REVIEW", "DONE"],
         taskMap: {},
 
         loaded: false
       }
     },
     created: async function() {
-      await getTicketStatusList().then(statusList =>
-        this.statusList = statusList
-      )
+      // await getTicketStatusList().then(statusList =>
+      //   this.statusList = statusList
+      // )
 
       await this.loadProjectList()
     },

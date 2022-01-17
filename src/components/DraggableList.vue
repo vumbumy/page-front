@@ -6,7 +6,7 @@
     </v-card-title>
     <draggable class="fill-height" group="task" v-model="taskArr" @change="onMoved">
       <v-list-item v-for="element in taskArr" :key="element.recordNo" :disabled="project.projectNo == null">
-        <v-ticket
+        <v-record-dialog
           :value="element"
           :types="project.columns"
           :project-no="project.projectNo"
@@ -21,13 +21,13 @@
 
 <script>
   import draggable from 'vuedraggable'
-  import VTicket from "@/components/TicketDialog";
   import {Record} from "@/api/ticket";
+  import VRecordDialog from "@/components/RecordDialog";
 
   export default {
     name: "VDraggableList",
     components: {
-      VTicket,
+      VRecordDialog,
       draggable,
     },
     props: {

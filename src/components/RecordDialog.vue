@@ -36,28 +36,28 @@
       </v-card-title>
 
       <v-card-text>
-        <div v-for="type in types" :key="type.columnNo">
+        <div v-for="column in itemColumns" :key="column.columnNo">
           <v-textarea
-            v-if="type.columnType === 'TextArea'"
+            v-if="column.columnType === 'TextArea'"
             outlined
             dense
             :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
+            :label="column.columnName"
+            v-model="itemValues[column.columnNo]"
           />
           <v-text-field
-            v-else-if="type.columnType === 'Text' || type.columnType === 'URL'"
+            v-else-if="column.columnType === 'Text' || column.columnType === 'URL'"
             outlined
             dense
             :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
+            :label="column.columnName"
+            v-model="itemValues[column.columnNo]"
           />
           <v-date-selector
-            v-else-if="type.columnType === 'Date'"
+            v-else-if="column.columnType === 'Date'"
             :readonly="readonly"
-            :label="type.columnName"
-            v-model="itemValues[type.columnNo]"
+            :label="column.columnName"
+            v-model="itemValues[column.columnNo]"
           />
           <v-text-field
             v-else
@@ -112,6 +112,7 @@ export default {
 
       item: this.value,
       itemValues: {},
+      itemColumns: []
     }
   },
   computed: {
@@ -141,16 +142,15 @@ export default {
     loadTicket: async function() {
       let loadedItem = null;
 
-      if (this.shared) {
-        loadedItem = await getPublicTicket(this.value.recordCode)
-      } else if (!this.added) {
-        loadedItem = await getTicket(this.value.recordNo)
-      }
+      loadedItem = await getTicket(this.value.recordNo)
 
       if (loadedItem != null) {
         loadedItem.values.forEach(
           ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
         )
+
+        this.itemColumns = this.types
+          .filter(column => column.columnNo in this.itemValues)
       }
 
       this.item = loadedItem;

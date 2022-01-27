@@ -11,6 +11,7 @@
         v-model="date"
         :label="label"
         readonly
+        :clearable="!readonly"
         v-bind="attrs"
         v-on="on"
       ></v-text-field>

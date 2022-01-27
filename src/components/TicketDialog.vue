@@ -20,7 +20,7 @@
       <v-card-title class="mb-3"><h2 v-text="item.recordName"/></v-card-title>
       <v-card-subtitle><h3 class="subtitle-1" v-text="item.projectName"/></v-card-subtitle>
       <v-card-text>
-        <div v-for="column in itemColumns" :key="column.columnNo" >
+        <div v-for="column in itemColumns" :key="column.columnNo">
           <v-textarea
             v-if="column.columnType === 'TextArea'"
             readonly
@@ -33,6 +33,9 @@
             :label="column.columnName"
             v-model="itemValues[column.columnNo]"
           />
+          <v-btn block outlined text plain v-else-if="column.columnType === 'URL'" :href="itemValues[column.columnNo]">
+            {{column.columnName}}
+          </v-btn>
           <v-text-field
             v-else
             readonly

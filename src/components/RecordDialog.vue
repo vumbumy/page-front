@@ -12,10 +12,12 @@
     </template>
     <v-card v-if="item">
       <v-card-actions class="d-flex justify-end">
-        <div class="d-flex flex-row" v-if="!shared">
+        <div class="d-flex flex-row">
           <v-user-permission-dialog v-model="item.userPermissions"/>
           <v-divider class="mx-2" vertical/>
           <v-group-permission-dialog v-model="item.groupPermissions"/>
+          <v-divider class="mx-2" vertical/>
+          <v-icon-switch v-model="item.shared" :readonly="readonly"/>
         </div>
         <v-spacer/>
         <v-btn icon v-if="item.writable && !added" @click="onDelete">
@@ -36,7 +38,7 @@
       </v-card-title>
 
       <v-card-text>
-        <div v-for="column in itemColumns" :key="column.columnNo">
+        <div v-for="column in types" :key="column.columnNo">
           <v-textarea
             v-if="column.columnType === 'TextArea'"
             outlined
@@ -90,10 +92,11 @@ import {
 import VDateSelector from "@/components/DateSelector";
 import VUserPermissionDialog from "@/components/UserPermissionDialog";
 import VGroupPermissionDialog from "@/components/GroupPermissionDialog";
+import VIconSwitch from "@/components/IconSwitch";
 
 export default {
   name: "VRecordDialog",
-  components: {VGroupPermissionDialog, VUserPermissionDialog, VDateSelector},
+  components: {VIconSwitch, VGroupPermissionDialog, VUserPermissionDialog, VDateSelector},
   props: {
     value: {
       type: Object
@@ -112,7 +115,6 @@ export default {
 
       item: this.value,
       itemValues: {},
-      itemColumns: []
     }
   },
   computed: {
@@ -124,9 +126,6 @@ export default {
     },
     added() {
       return this.item.recordNo === 0;
-    },
-    shared() {
-      return this.projectNo === 0;
     }
   },
   watch: {
@@ -148,16 +147,14 @@ export default {
         loadedItem.values.forEach(
           ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
         )
-
-        this.itemColumns = this.types
-          .filter(column => column.columnNo in this.itemValues)
       }
 
       this.item = loadedItem;
     },
     onClickSave: async function () {
       this.item.projectNo = this.projectNo;
-      this.item.values = this.itemValues
+      this.item.values = this.itemValues;
+      this.item.permissions = this.item.userPermissions.concat(this.item.groupPermissions);
 
       if (!this.added) {
         updateTicket(this.item)

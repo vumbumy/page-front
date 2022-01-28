@@ -20,7 +20,7 @@
       <v-card-title class="mb-3"><h2 v-text="item.recordName"/></v-card-title>
       <v-card-subtitle><h3 class="subtitle-1" v-text="item.projectName"/></v-card-subtitle>
       <v-card-text>
-        <div v-for="column in itemColumns" :key="column.columnNo">
+        <div v-for="column in types" :key="column.columnNo">
           <v-textarea
             v-if="column.columnType === 'TextArea'"
             readonly
@@ -79,7 +79,6 @@ export default {
       // readonly: this.value.recordNo !== 0,
 
       item: this.value,
-      itemColumns: [],
       itemValues: {},
     }
   },
@@ -110,9 +109,6 @@ export default {
         loadedItem.values.forEach(
           ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
         )
-
-        this.itemColumns = this.types
-          .filter(column => column.columnNo in this.itemValues)
       }
 
       this.item = loadedItem;

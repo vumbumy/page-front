@@ -46,9 +46,9 @@ export default {
       this.$emit('input', this.$moment(val).valueOf())
     },
 
-    // value() {
-    //   this.date = this.formatDate(this.value)
-    // }
+    value() {
+      this.date = this.formatDate(this.value)
+    }
   },
 
   methods: {

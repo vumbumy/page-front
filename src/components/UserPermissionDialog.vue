@@ -1,7 +1,7 @@
 <template>
   <div v-if="permissions">
     <v-btn icon class="pa-0" @click="dialog = true">
-      <v-icon dense v-text="icon"/>
+      <v-icon dense>mdi-account</v-icon>
     </v-btn>
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
@@ -93,17 +93,17 @@ export default {
       return this.value.length === 0
         || (this.value.length === 1 && this.value[0].userNo === this.$store.getters.currentUserNo);
     },
-    isShared() {
-      return this.value.find(permission => permission.userNo == null && permission.groupNo == null);
-    },
-    icon() {
-      if (this.isPrivate) {
-        return PRIVATE.ICON
-      } else if (this.isShared) {
-        return PUBLIC.ICON
-      }
-      return GROUP.ICON
-    },
+    // isShared() {
+    //   return this.value.find(permission => permission.userNo == null && permission.groupNo == null);
+    // },
+    // icon() {
+    //   if (this.isPrivate) {
+    //     return PRIVATE.ICON
+    //   } else if (this.isShared) {
+    //     return PUBLIC.ICON
+    //   }
+    //   return GROUP.ICON
+    // },
     userNoList() {
       return this.permissions.map(user => user.userNo)
     },

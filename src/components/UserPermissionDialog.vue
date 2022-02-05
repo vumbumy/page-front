@@ -52,9 +52,7 @@
 
 <script>
 
-import {GROUP, PRIVATE, PUBLIC} from "@/api/common";
-import {updateUserGroupUsers} from "@/api/group";
-import {getSecuredUserList} from "@/api/user";
+import {getUserList} from "@/api/user";
 
 export default {
   name: "VUserPermissionDialog",
@@ -128,7 +126,7 @@ export default {
       this.permissions = Object.assign([], this.value)
     },
     loadUserList: async function () {
-      await getSecuredUserList()
+      await getUserList()
         .then(ret => this.userList = ret)
     },
     onCompleted(userEmail) {

@@ -1,12 +1,12 @@
-const admin = '/admin'
+// const admin = '/admin'
 const secured = '/secured';
 
 export default {
   baseURL: process.env.VUE_APP_API_BASE_URL,
-  admin: {
-    users: secured + admin + "/users",
-    groups: secured + admin + "/groups",
-  },
+  // admin: {
+  //   users: secured + admin + "/users",
+  //   groups: secured + admin + "/groups",
+  // },
   secured: {
     users: secured + "/users",
     groups: secured + "/groups",

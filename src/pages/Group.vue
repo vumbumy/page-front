@@ -38,7 +38,7 @@
 <script>
 
 import {getUserGroupList} from "@/api/group";
-import {getSecuredUserList} from "@/api/user";
+import {getUserList} from "@/api/user";
 import VGroupDialog from "@/components/GroupDialog";
 import VUserTable from "@/components/UserTable";
 
@@ -69,7 +69,7 @@ export default {
       })
     },
     loadUserList: async function () {
-      await getSecuredUserList()
+      await getUserList()
         .then(ret => this.userList = ret)
     },
     onClickRow: function (item) {

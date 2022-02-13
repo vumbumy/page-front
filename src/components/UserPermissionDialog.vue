@@ -52,8 +52,6 @@
 
 <script>
 
-import {GROUP, PRIVATE, PUBLIC} from "@/api/common";
-import {updateUserGroupUsers} from "@/api/group";
 import {getUserList} from "@/api/user";
 
 export default {

@@ -1,4 +1,4 @@
-const admin = '/admin'
+// const admin = '/admin'
 const secured = '/secured';
 
 export default {

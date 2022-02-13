@@ -50,7 +50,7 @@
 <script>
 
 import {GROUP, PRIVATE, PUBLIC} from "@/api/common";
-import {getSecuredUserGroupList} from "@/api/group";
+import {getUserGroupList} from "@/api/group";
 
 export default {
   name: "VGroupPermissionDialog",
@@ -124,7 +124,7 @@ export default {
       this.permissions = Object.assign([], this.value)
     },
     loadGroupList: async function () {
-      await getSecuredUserGroupList()
+      await getUserGroupList()
         .then(ret => this.groupList = ret)
     },
     onCompleted(groupName) {

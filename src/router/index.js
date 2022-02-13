@@ -25,12 +25,13 @@ const requireAuth = () => (to, from, next) => {
 };
 
 const requireAdmin = () => (to, from, next) => {
-  store.dispatch("AUTH").then(() => {
-    if (store.getters.isAuthenticated && store.getters.isAdmin) {
-      return next();
-    }
-    next('/login')
-  })
+  store.dispatch("AUTH")
+    .then(() => {
+      if (store.getters.isAuthenticated && store.getters.isAdmin) {
+        return next();
+      }
+      next('/login')
+    })
 };
 
 

@@ -31,8 +31,8 @@ export default {
       userList: [],
       columns: [
         { text: 'EMAIL', value: 'email' },
-        { text: 'PHONE NUMBER', value: 'phoneNumber' },
-        { text: 'ROLES', value: 'roles' },
+        { text: 'MOBILE', value: 'mobile' },
+        // { text: 'ROLES', value: 'roles' },
         // { text: 'ENABLED', value: 'enabled' },
         { text: 'CREATED', value: 'createdAt', align: "center"},
       ],
@@ -46,10 +46,10 @@ export default {
       return user.enabled
     },
     isAdmin: function (user) {
-      return user.roles.find(e => e.value === ROLE_ADMIN)
+      return user.roles?.find(e => e.value === ROLE_ADMIN)
     },
     isPartner: function (user) {
-      return user.roles.find(e => e.value === ROLE_PARTNER)
+      return user.roles?.find(e => e.value === ROLE_PARTNER)
     },
     loadUserList: function () {
       this.userList = [];

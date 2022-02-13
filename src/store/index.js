@@ -20,7 +20,7 @@ import {ROLE_ADMIN} from "@/config/constant";
 export default new Vuex.Store({
   state: {
     account: null,
-    token: null
+    // token: null
   },
   getters: {
     isAuthenticated: state => {
@@ -52,12 +52,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    LOGIN({ commit }, { email, password }) {
+    LOGIN({ commit }, { username, password }) {
       return new Promise((resolve, reject) => Api.post(path.auth.sign.in,
-        {
-          email: email,
-          password: password
-        })
+        {username, password})
         .then(res => {
           commit("setToken", res)
 

@@ -13,16 +13,16 @@
           <v-text-field
             placeholder="EMAIL"
             required
-            v-model="email"
+            v-model="username"
           />
           <v-text-field
             type="password"
             placeholder="PASSWORD"
             required
             v-model="password"
-            @keydown.enter="onClickLogin(email, password)"
+            @keydown.enter="onClickLogin(username, password)"
           />
-          <v-btn block :loading="loading" @click="onClickLogin(email, password)">
+          <v-btn block :loading="loading" @click="onClickLogin(username, password)">
             LOGIN
           </v-btn>
           <v-btn block text class="mt-5" to="/join">
@@ -56,7 +56,7 @@
     name: "Login",
     data() {
       return {
-        email: "",
+        username: "",
         password: "",
 
         loading: false,
@@ -65,13 +65,13 @@
       }
     },
     methods: {
-      onClickLogin: function (email, password){
+      onClickLogin: function (username, password){
         let vm = this
 
         vm.loading = true
         // LOGIN 액션 실행
         store
-          .dispatch("LOGIN", { email, password })
+          .dispatch("LOGIN", { username, password })
           .then(() => router.push("/"))
           .catch(({ data }) => alert(data))
           .finally(() => vm.loading = false)

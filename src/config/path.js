@@ -17,8 +17,8 @@ export default {
     schedules: secured + "/schedules"
   },
   api: {
-    types: "/types",
-    types_data_types: "/types/data-columns",
+    columns: "/columns",
+    columns_type: "/data-columns/type",
     records: "/records",
     records_status: "/records/status"
   },

@@ -51,7 +51,7 @@
 <script>
 import {deleteProject, getProject, Project} from "@/api/project";
 import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
-import {getDataTypeList, DataColumn} from "@/api/types";
+import {getColumnsType, DataColumn} from "@/api/types";
 import {createProject, updateProject} from "@/api/project";
 import VDateSelector from "./DateSelector";
 
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     loadProject: async function() {
-      await getDataTypeList()
+      await getColumnsType()
         .then(ret => this.columnTypeList = ret)
 
       if (this.value === 0) {

@@ -20,7 +20,7 @@
       <v-card-title class="mb-3"><h2 v-text="item.recordName"/></v-card-title>
       <v-card-subtitle><h3 class="subtitle-1" v-text="item.projectName"/></v-card-subtitle>
       <v-card-text>
-        <div v-for="column in types" :key="column.columnNo">
+        <div v-for="column in itemColumns" :key="column.columnNo">
           <v-textarea
             v-if="column.columnType === 'TextArea'"
             readonly
@@ -66,7 +66,7 @@ export default {
     value: {
       type: Object
     },
-    types: {
+    columns: {
       type: Array
     },
     projectName: {
@@ -80,6 +80,7 @@ export default {
 
       item: this.value,
       itemValues: {},
+      itemColumns: []
     }
   },
   computed: {
@@ -88,7 +89,7 @@ export default {
     },
     title() {
       return this.isEmptyTitle ? "EMPTY" : this.value.recordName;
-    }
+    },
   },
   watch: {
     dialog: function () {
@@ -101,14 +102,21 @@ export default {
   },
   methods: {
     loadTicket: async function() {
-      let loadedItem = null;
-
-      loadedItem = await getPublicTicket(this.value.recordCode)
+      this.itemColumns = [];
+      let loadedItem = await getPublicTicket(this.value.recordCode)
 
       if (loadedItem != null) {
+        console.log(loadedItem)
+
         loadedItem.values.forEach(
-          ({columnNo, cellValue}) => this.itemValues[columnNo] = cellValue
+          ({columnNo, cellValue}) => {
+            this.itemValues[columnNo] = cellValue
+
+            this.itemColumns.push(this.columns.find(value => value.columnNo === parseInt(columnNo)))
+          }
         )
+
+        console.log(this.itemColumns)
       }
 
       this.item = loadedItem;

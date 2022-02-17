@@ -8,7 +8,7 @@
       <v-list-item v-for="element in taskArr" :key="element.recordCode" :disabled="projectNo == null">
         <v-ticket-dialog
           :value="element"
-          :types="types"
+          :columns="columns"
           :project-no="projectNo"
           @update="onUpdate"
           @close="onClose"
@@ -28,7 +28,7 @@ import {Record, Ticket} from "@/api/ticket";
     components: {
       VTicketDialog,
     },
-    props: ['value', 'label', 'types', 'projectNo'],
+    props: ['value', 'label', 'columns', 'projectNo'],
     data() {
       return {
         taskArr: this.value,

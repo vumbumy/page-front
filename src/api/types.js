@@ -1,18 +1,18 @@
 import {Api} from "@/api/common";
 import path from "@/config/path";
 
-export function getTypeList() {
+export function getColumns() {
   return new Promise(function(resolve) {
-    Api.get(path.api.types)
+    Api.get(path.api.columns)
       .then(res => {
         resolve(res.data)
       })
   });
 }
 
-export function getDataTypeList() {
+export function getColumnsType() {
   return new Promise(function(resolve) {
-    Api.get(path.api.types_data_types)
+    Api.get(path.api.columns_type)
       .then(res => {
         resolve(res.data)
       })

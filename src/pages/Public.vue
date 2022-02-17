@@ -4,7 +4,7 @@
       <v-ticket-list
         :label="status"
         :project-no="0"
-        :types="typeList"
+        :columns="columns"
         :value="arr"
       />
     </div>
@@ -14,7 +14,7 @@
 <script>
   import {getPublicTicketList, getTicketStatusList} from "@/api/ticket";
   import VTicketList from "@/components/TicketList";
-  import {getTypeList} from "@/api/types";
+  import {getColumns} from "@/api/types";
 
   export default {
     name: "Public",
@@ -26,7 +26,7 @@
     },
     data() {
       return {
-        typeList: [],
+        columns: [],
 
         statusList: [],
         taskMap: {},
@@ -49,8 +49,8 @@
           this.taskMap[status] = []
         }
 
-        await getTypeList().then(
-          value => this.typeList = value
+        await getColumns().then(
+          value => this.columns = value
         )
 
         await getPublicTicketList().then(arr => arr

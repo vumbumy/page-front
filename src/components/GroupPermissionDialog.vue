@@ -101,11 +101,15 @@ export default {
     //   return GROUP.ICON
     // },
     groupNoList() {
-      return this.permissions.map(group => group.groupNo)
+      return this.permissions
+        .map(group => group.groupNo)
     },
-    groupNameList() {
+    groupFiltered() {
       return this.groupList
         .filter(group => !this.groupNoList.includes(group.groupName))
+    },
+    groupNameList() {
+      return this.groupFiltered
         .map(group => group.groupName)
     }
   },
@@ -137,11 +141,10 @@ export default {
       this.updated = true
     },
     findSelected(groupName) {
-      return this.groupList.find(group => group.groupName === groupName)
+      return this.groupList
+        .find(group => group.groupName === groupName)
     },
     onSave: async function() {
-      console.log("SAVE")
-
       this.updated = false;
       this.dialog = false;
     },

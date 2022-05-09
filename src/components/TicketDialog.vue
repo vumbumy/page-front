@@ -107,8 +107,6 @@ export default {
       let loadedItem = await getPublicTicket(this.value.recordCode)
 
       if (loadedItem != null) {
-        console.log(loadedItem)
-
         loadedItem.values.forEach(
           ({columnNo, cellValue}) => {
             this.itemValues[columnNo] = cellValue
@@ -116,8 +114,6 @@ export default {
             this.itemColumns.push(this.columns.find(value => value.columnNo === parseInt(columnNo)))
           }
         )
-
-        console.log(this.itemColumns)
       }
 
       this.item = loadedItem;

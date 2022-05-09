@@ -142,8 +142,6 @@ export default {
       return this.userList.find(user => user.email === email)
     },
     onSave: async function() {
-      console.log("SAVE")
-
       this.updated = false;
       this.dialog = false;
     },

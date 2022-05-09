@@ -23,20 +23,39 @@
             <v-date-selector v-model="project.startedAt" label="Start Date" :readonly="readonly"/>
             <v-date-selector v-model="project.endedAt" label="End Date" :readonly="readonly"/>
           <v-textarea outlined placeholder="Description" v-model="project.description"/>
-          <v-data-table :headers="headers" hide-default-footer :items="project.columns" disable-sort disable-filtering>
-            <template v-slot:item.columnType="{ item }">
-              <v-select class="caption" dense :items="columnTypeList" v-model="item.columnType"/>
-            </template>
-            <template v-slot:item.columnName="{ item }">
-              <v-text-field class="caption" dense v-model="item.columnName"/>
-            </template>
-            <template v-slot:item.defaultValue="{ item }">
-              <v-text-field class="caption" dense v-model="item.defaultValue"/>
-            </template>
-            <template v-slot:item.required="{ item }">
-              <v-switch dense v-model="item.required"/>
-            </template>
-          </v-data-table>
+          <draggable group="column" v-model="project.columns" :disabled="readonly">
+            <div class="row no-gutters" v-for="element in project.columns" :key="element.columnNo">
+              <div class="col-1 mt-2">
+                <v-icon :color="readonly && 'secondary'">mdi-menu-swap-outline</v-icon>
+              </div>
+              <div class="col-3 mr-2 mr-sm-4">
+                <v-select class="caption" dense :items="columnTypeList" v-model="element.columnType"/>
+              </div>
+              <div class="col-3 mr-2 mr-sm-4">
+                <v-text-field class="caption" dense v-model="element.columnName"/>
+              </div>
+              <div class="col-3 mr-auto">
+                <v-text-field class="caption" dense v-model="element.defaultValue"/>
+              </div>
+              <div class="col-1">
+                <v-switch class="mt-1" dense v-model="element.required"/>
+              </div>
+            </div>
+          </draggable>
+<!--          <v-data-table :headers="headers" hide-default-footer :items="project.columns" disable-sort disable-filtering>-->
+<!--            <template v-slot:item.columnType="{ item }">-->
+<!--              <v-select class="caption" dense :items="columnTypeList" v-model="item.columnType"/>-->
+<!--            </template>-->
+<!--            <template v-slot:item.columnName="{ item }">-->
+<!--              <v-text-field class="caption" dense v-model="item.columnName"/>-->
+<!--            </template>-->
+<!--            <template v-slot:item.defaultValue="{ item }">-->
+<!--              <v-text-field class="caption" dense v-model="item.defaultValue"/>-->
+<!--            </template>-->
+<!--            <template v-slot:item.required="{ item }">-->
+<!--              <v-switch dense v-model="item.required"/>-->
+<!--            </template>-->
+<!--          </v-data-table>-->
         </v-form>
       </v-card-text>
       <v-card-actions class="d-flex justify-end mx-2 mb-2">
@@ -49,6 +68,7 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import {deleteProject, getProject, Project} from "@/api/project";
 import VReadWriteAccessSelect from "@/components/ReadWriteAccessSelect";
 import {getColumnsType, DataColumn} from "@/api/types";
@@ -57,7 +77,7 @@ import VDateSelector from "./DateSelector";
 
 export default {
   name: "VProjectDialog",
-  components: {VDateSelector, VReadWriteAccessSelect},
+  components: {VDateSelector, VReadWriteAccessSelect, draggable},
   props: {
     value: {
       type: Number,

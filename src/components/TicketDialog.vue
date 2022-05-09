@@ -5,6 +5,7 @@
         <v-list-item-title>
           <div class="d-flex flex-column">
             <div class="font-weight-bold" :class="{'font-italic': isEmptyTitle}" v-text="title"/>
+            <div class="text--lighten-1 text--secondary subtitle-1" v-text="value.projectName"/>
             <div class="ml-auto overline" v-text="'CODE-' + value.recordCode"/>
           </div>
         </v-list-item-title>
